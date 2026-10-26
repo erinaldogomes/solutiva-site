@@ -15,7 +15,7 @@
   function cfDesenhar() {
     if (!cf.chave || cf.id !== null || !window.turnstile) return;
     var onde = $('cg-turnstile'); onde.hidden = false;
-    cf.id = window.turnstile.render(onde, { sitekey: cf.chave, language: 'pt-br', appearance: 'interaction-only',
+    cf.id = window.turnstile.render(onde, { sitekey: cf.chave, language: 'pt-br', appearance: 'interaction-only', theme: 'light',
       callback: function (t) { cf.token = t; }, 'expired-callback': function () { cf.token = ''; }, 'error-callback': function () { cf.token = ''; } });
   }
   function cfRenovar() { cf.token = ''; try { if (window.turnstile && cf.id !== null) window.turnstile.reset(cf.id); } catch (e) { /* */ } }
