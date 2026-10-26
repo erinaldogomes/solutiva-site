@@ -100,6 +100,7 @@ body > .topo .marca, .tp-marca, .cg-marca, .cn-marca { view-transition-name: mar
 }
 .btn::after, .btn-vidro::after, .btn-prim::after { content: none; }
 .bt, .btn, .cgp-quero, .cge-g-copiar { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 0 24px; font: 800 1.02rem/1 var(--titulo); letter-spacing: -.01em; cursor: pointer; text-decoration: none; }
+.bt[hidden], .btn[hidden], .cgp-quero[hidden], .cge-g-copiar[hidden], .legal .rotulo[hidden] { display: none !important; }
 .cg-btn, .cn-btn, .cn-btn-2 { font-family: var(--titulo); font-weight: 800; letter-spacing: -.01em; }
 .cgp-quero, .cge-g-copiar { width: 100%; margin-top: 6px; }
 /* primário: tomate com texto branco e sombra preta */
