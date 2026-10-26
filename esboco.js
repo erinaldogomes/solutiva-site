@@ -142,9 +142,9 @@
   function atualizarPrevia() {
     var tipo = oque() || 'site', nome = val('negocio'), ramo = val('ramo'), cidade = val('cidade');
     // cores
-    var c = corDe(val('cores')), p = c[0] || '#3fd2ff', s = c[1] || (luz(p) > .6 ? '#0f1726' : '#0a1426');
-    if (c[1] && luz(c[1]) > .75 && luz(p) > .75) s = '#0f1726';
-    tel.style.setProperty('--p', p); tel.style.setProperty('--s', s); tel.style.setProperty('--pt', luz(p) > .55 ? '#0b1220' : '#ffffff');
+    var c = corDe(val('cores')), p = c[0] || '#c43014', s = c[1] || '#171310';
+    if (c[1] && luz(c[1]) > .75 && luz(p) > .75) s = '#171310';
+    tel.style.setProperty('--p', p); tel.style.setProperty('--s', s); tel.style.setProperty('--pt', luz(p) > .55 ? '#171310' : '#ffffff');
     document.documentElement.style.setProperty('--p', p);
     ms.classList.toggle('claro', luz(s) > .6);
     // ícone do ramo
@@ -813,7 +813,7 @@
     if (!cf.chave || cf.id !== null || !window.turnstile) return;
     var onde = $('#cg-turnstile'); if (!onde) return;
     onde.hidden = false;
-    cf.id = window.turnstile.render(onde, { sitekey: cf.chave, language: 'pt-br', appearance: 'interaction-only',
+    cf.id = window.turnstile.render(onde, { sitekey: cf.chave, language: 'pt-br', appearance: 'interaction-only', theme: 'light',
       callback: function (t) { cf.token = t; }, 'expired-callback': function () { cf.token = ''; }, 'error-callback': function () { cf.token = ''; } });
   }
   function cfRenovar() { cf.token = ''; try { if (window.turnstile && cf.id !== null) window.turnstile.reset(cf.id); } catch (e) { /* */ } }
@@ -902,7 +902,7 @@
     if (menosMov) return;
     var cv = $('#confete'), cx = cv.getContext('2d'), dpr = Math.min(window.devicePixelRatio || 1, 1.5), w = innerWidth, h = innerHeight;
     cv.width = w * dpr; cv.height = h * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var cores = ['#9fe6ff', '#3fd2ff', '#4c8df6', '#2d6be0', '#eef2f8'], ps = [], ini = performance.now();
+    var cores = ['#c43014', '#e8573a', '#f6efe4', '#171310', '#ffd9cf'], ps = [], ini = performance.now();
     for (var i = 0; i < 110; i++) { var a = -Math.PI / 2 + (Math.random() - .5) * 1.6, v = 7 + Math.random() * 8; ps.push({ x: w / 2, y: h * .42, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6.28, vr: (Math.random() - .5) * .3, s: 4 + Math.random() * 5, c: cores[i % cores.length] }); }
     (function q(t) {
       var dt = (t - ini) / 1000; cx.clearRect(0, 0, w, h);
