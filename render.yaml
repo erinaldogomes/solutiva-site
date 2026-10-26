@@ -11,6 +11,18 @@ services:
     runtime: static
     buildCommand: ""
     staticPublishPath: .
+    # 26/10/2026: link antigo/errado da prévia vai para o formulário (o plantão mandou /prévia/; as pastas previa/ e prévia/
+    # têm a mesma ida por meta refresh caso o serviço não esteja ligado a este Blueprint)
+    routes:
+      - type: redirect
+        source: /previa/*
+        destination: /esboco/
+      - type: redirect
+        source: /prévia/*
+        destination: /esboco/
+      - type: redirect
+        source: /pr%C3%A9via/*
+        destination: /esboco/
     headers:
       - path: /assets/*
         name: Cache-Control
