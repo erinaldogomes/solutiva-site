@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Onest:wght@400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/esboco/esboco.css?v=t3">
+<link rel="stylesheet" href="/esboco/esboco.css?v=t4">
 <link rel="stylesheet" href="/cg-cores.css?v=2">
 <link rel="stylesheet" href="/cg-tatil.css?v=2">
 <link rel="stylesheet" href="/cg-extras-publico.css?v=1">
@@ -190,14 +190,15 @@
         <!-- 7. cores -->
         <section class="ps" data-p="cores" aria-labelledby="t-cores" hidden>
           <div class="fala"><svg class="robo" width="52" height="44" aria-hidden="true"><use href="#robo"/></svg>
-            <div class="balao"><p class="ps-kick" data-kick="Vamos deixar a cara de {nome}.">Vamos deixar com a sua cara.</p><h2 id="t-cores" class="ps-t" tabindex="-1">Quais são as cores da marca?</h2><p class="ps-d">Opcional. Toque numa dupla, escolha ou escreva.</p></div></div>
+            <div class="balao"><p class="ps-kick" data-kick="Vamos deixar a cara de {nome}.">Vamos deixar com a sua cara.</p><h2 id="t-cores" class="ps-t" tabindex="-1">Quais são as cores da marca?</h2><p class="ps-d">Opcional. Toque numa paleta, use as cores da sua logo ou escolha as suas. Na prévia, trocar a cor é grátis.</p></div></div>
           <div class="resp">
             <div class="cp"><span class="cp-r vh" id="r-cores">Cores da marca</span>
               <div class="paletas" id="paletas" role="group" aria-labelledby="r-cores"></div>
-              <div class="cores-livre">
+              <p class="cores-t" id="t-minhas">Escolher minhas cores</p>
+              <div class="cores-livre" role="group" aria-labelledby="t-minhas">
                 <label class="cor-pick" title="Cor principal"><input data-clarity-mask="true" type="color" id="cor1" value="#3fd2ff" aria-label="Cor principal"></label>
                 <label class="cor-pick" title="Cor de apoio"><input data-clarity-mask="true" type="color" id="cor2" value="#0e1522" aria-label="Cor de apoio"></label>
-                <input data-clarity-mask="true" name="cores" id="cores" maxlength="120" placeholder="ou escreva: preto e dourado" aria-labelledby="r-cores" enterkeyhint="next">
+                <input data-clarity-mask="true" name="cores" id="cores" maxlength="120" placeholder="ou escreva: rosa clarinho com dourado" aria-labelledby="r-cores" enterkeyhint="next">
               </div></div>
           </div>
         </section>
@@ -353,6 +354,6 @@
 <script src="/pixel.js?v=2"></script>
 <script src="/cg-tatil.js?v=2"></script>
 <script src="/cg-extras-publico.js?v=1"></script>
-<script src="/esboco.js?v=t5"></script>
+<script src="/esboco.js?v=t6"></script>
 </body>
 </html>
