@@ -270,13 +270,48 @@
 
   // paletas
   var paletasBox = $('#paletas'), coresIn = $('#cores'), cor1 = $('#cor1'), cor2 = $('#cor2');
-  PALETAS.forEach(function (pl) {
-    var b = document.createElement('button'); b.type = 'button'; b.className = 'paleta'; b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', pl[0]); b.title = pl[0];
-    b.innerHTML = '<i></i>'; b.firstChild.style.setProperty('--a', pl[1]); b.firstChild.style.setProperty('--b', pl[2]);
-    b.addEventListener('click', function () { coresIn.value = pl[0] + ' (' + pl[1] + ', ' + pl[2] + ')'; cor1.value = pl[1]; cor2.value = pl[2]; marcarPaleta(); salvar(); previaJa(); atualizarBotao(); marcarOk(coresIn); robo('r-ok'); });
-    paletasBox.appendChild(b);
-  });
-  function marcarPaleta() { var v = coresIn.value; $$('.paleta', paletasBox).forEach(function (b, i) { b.setAttribute('aria-pressed', String(v.indexOf(PALETAS[i][1]) >= 0 && v.indexOf(PALETAS[i][2]) >= 0)); }); }
+  // PALETAS DO RAMO (dono, 27/10/2026): 3 paletas sólidas que combinam com o negócio e o público; o resto (seletor e texto) é
+  // o "outra". MESMA tabela de solutiva-app/lib/paletas.js (mudou lá, copie aqui). Ramo fora da tabela = as 8 de sempre.
+  // Sem cor e sem logo, o servidor escolhe a 1ª do ramo sozinho (não trava a prévia).
+  var PALETAS_RAMO = [
+    [/\b(estetic\w*|spa|sobrancelh\w*|cilios|lash\w*|depila\w*|massag\w*|massoterap\w*|manicure|pedicure|nail\w*|unhas?|harmoniza\w*|micropigment\w*|beleza)\b/, [['Rosé, nude e dourado', '#b7787a', '#f8f1ec', '#b8955a'], ['Lilás e branco', '#8a72b8', '#fbfaff', '#d9cff0'], ['Verde-sálvia e creme', '#7d9580', '#f6f2e9', '#c2a878']]],
+    [/\b(barbear\w*|barbeir\w*|barber\w*)\b/, [['Preto, madeira e dourado', '#c19a5b', '#141110', '#6b4a2f'], ['Azul-marinho e cobre', '#c27c4e', '#13213a', '#e9dcc7'], ['Verde-garrafa e creme', '#1f4d3a', '#f4efe4', '#b08d57']]],
+    [/\b(salao|cabeleir\w*|cabelo\w*|hair|trancist\w*|trancas|maquiad\w*|make)\b/, [['Rosé e preto', '#c98b8b', '#151214', '#efe3dc'], ['Nude e dourado', '#a8844f', '#f7f0ea', '#d9c3a5'], ['Terracota e creme', '#b5643f', '#f7f1e8', '#3a2a22']]],
+    [/\b(nutri\w*|dietist\w*|emagrec\w*)\b/, [['Verde e creme', '#4f7d5a', '#f7f4ea', '#c9a96e'], ['Pêssego e branco', '#e08e6d', '#fffaf6', '#5f7f63'], ['Verde-oliva e areia', '#6b7a3a', '#f3eee2', '#c58b5c']]],
+    [/\b(pet\s?shop|pet|veterin\w*|banho e tosa|tosa|cachorr\w*|gatos?)\b/, [['Azul e amarelo-manteiga', '#2f6f9f', '#fff9ec', '#f2c94c'], ['Verde-água e branco', '#3c9d93', '#f7fcfb', '#f29e4c'], ['Laranja e creme', '#e07b39', '#fbf6ee', '#3d5a6c']]],
+    [/\b(psico\w*|terapeut\w*|terapia|psicanal\w*|coach\w*)\b/, [['Verde-sálvia e creme', '#7d9580', '#f6f2e9', '#c07a5a'], ['Terracota suave e areia', '#c07a5a', '#f6efe6', '#5d7a94'], ['Azul-acinzentado e branco', '#5d7a94', '#f8fafb', '#c2a878']]],
+    [/\b(clinica|consultorio|medic\w*|dentist\w*|odonto\w*|fisio\w*|fonoaudi\w*|podolog\w*|ortodont\w*|enfermag\w*|laboratorio|saude)\b/, [['Azul-petróleo e branco', '#1f5f74', '#f8fbfc', '#7fb7c4'], ['Verde-água e branco', '#3c9d93', '#f7fcfb', '#1f4f4a'], ['Lavanda e cinza-claro', '#7c6fb0', '#f6f6fa', '#3f3a5a']]],
+    [/\b(personal|pilates|academia|crossfit|yoga|ioga|funcional|treino\w*|danca)\b/, [['Grafite e laranja', '#e8692c', '#17181a', '#f3efe9'], ['Verde-sálvia e branco', '#6f8f78', '#fafaf7', '#2f3a33'], ['Azul-marinho e areia', '#1d3557', '#f3eee2', '#e0a458']]],
+    [/\b(tatu\w*|tattoo\w*|piercing)\b/, [['Preto e vermelho', '#c0392b', '#111111', '#e9e1d3'], ['Preto e cinza-osso', '#d9cdb8', '#121212', '#8a8178'], ['Verde-garrafa e preto', '#3f8f6b', '#0f1110', '#d9cdb8']]],
+    [/\b(advoca\w*|advogad\w*|contab\w*|contador\w*|escritorio|imobiliari\w*|corretor\w*|consultori\w*|seguros?)\b/, [['Azul-marinho, branco e dourado', '#1b2f4b', '#f8f7f4', '#b08d57'], ['Verde-escuro e creme', '#1f4d3a', '#f6f2e9', '#b08d57'], ['Vinho e cinza-claro', '#7b1e3a', '#f6f5f4', '#2b2b2b']]],
+    [/\b(doce\w*|docinho\w*|confeitar\w*|bolos?|brigadeir\w*|chocolat\w*|tortas?|cupcake\w*)\b/, [['Rosa-chá e creme', '#c98a8f', '#fdf7f2', '#6b4433'], ['Chocolate e creme', '#6b4433', '#fbf5ec', '#d9a679'], ['Lilás e branco', '#8a72b8', '#fbfaff', '#e7b8c4']]],
+    [/\b(acai\w*|sorvet\w*|gelat\w*)\b/, [['Roxo-açaí e creme', '#5b2a6e', '#fbf7f2', '#7bb661'], ['Roxo e branco', '#6a2c86', '#ffffff', '#f2b134']]],
+    [/\b(cafe\w*|cafeteria|padari\w*|panific\w*)\b/, [['Café e creme', '#6b4433', '#f7f1e6', '#c58b5c'], ['Verde-escuro e creme', '#1f4d3a', '#f6f2e9', '#c19a5b'], ['Terracota e areia', '#b5643f', '#f6efe6', '#3a2a22']]],
+    [/\b(japon\w*|sushi|temaki\w*|oriental|poke|ramen)\b/, [['Vermelho e branco-arroz', '#b3261e', '#faf7f2', '#1c1c1c'], ['Preto e vermelho', '#c0392b', '#111111', '#f3efe9']]],
+    [/\b(restaurante|lanchonete|lanche\w*|hamburg\w*|burger|pizz\w*|marmit\w*|comida|cozinha|churrasc\w*|espetinh\w*|pastel\w*|salgad\w*|bar|boteco|food ?truck|delivery|quentinh\w*|self ?service|tapioc\w*|crepe\w*|petisc\w*)\b/, [['Vermelho-tomate e creme', '#c0392b', '#fbf5ea', '#2f5d3a'], ['Verde-oliva e creme', '#5e7a3a', '#f8f3e8', '#c0392b'], ['Preto e mostarda', '#e1a730', '#141210', '#f3efe9']]]
+  ];
+  var PAL_ATUAL = null;
+  function paletasDoRamo() {
+    var t = String(val('ramo') + ' ' + val('negocio')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    for (var i = 0; i < PALETAS_RAMO.length; i++) if (PALETAS_RAMO[i][0].test(t)) return PALETAS_RAMO[i][1].map(function (o) { return [o[0], o[1], o[2], o[3]]; });
+    return null;
+  }
+  function desenharPaletas() {
+    var doRamo = paletasDoRamo(), lista = doRamo || PALETAS;
+    if (PAL_ATUAL && JSON.stringify(PAL_ATUAL) === JSON.stringify(lista)) return;
+    PAL_ATUAL = lista; paletasBox.textContent = ''; paletasBox.classList.toggle('do-ramo', !!doRamo);
+    lista.forEach(function (pl) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'paleta'; b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', pl[0]); b.title = pl[0];
+      b.innerHTML = '<i></i>'; b.firstChild.style.setProperty('--a', pl[1]); b.firstChild.style.setProperty('--b', pl[2]);
+      if (doRamo) { var s = document.createElement('small'); s.textContent = pl[0]; b.appendChild(s); }
+      b.addEventListener('click', function () { coresIn.value = pl[0] + ' (' + pl.slice(1).filter(Boolean).join(', ') + ')'; cor1.value = pl[1]; cor2.value = pl[2]; marcarPaleta(); salvar(); previaJa(); atualizarBotao(); marcarOk(coresIn); robo('r-ok'); });
+      paletasBox.appendChild(b);
+    });
+    marcarPaleta();
+  }
+  function marcarPaleta() { var v = coresIn.value; $$('.paleta', paletasBox).forEach(function (b, i) { var pl = PAL_ATUAL && PAL_ATUAL[i]; b.setAttribute('aria-pressed', String(!!pl && v.indexOf(pl[1]) >= 0 && v.indexOf(pl[2]) >= 0)); }); }
+  desenharPaletas();
+  ramoIn.addEventListener('input', desenharPaletas);
   function corLivre() { coresIn.value = ('Cores ' + cor1.value + ' e ' + cor2.value).slice(0, 120); marcarPaleta(); salvar(); previaJa(); atualizarBotao(); }
   cor1.addEventListener('input', corLivre); cor2.addEventListener('input', corLivre);
   coresIn.addEventListener('input', marcarPaleta);
@@ -518,6 +553,7 @@
     if (ordem[atual] === 'falar' && i !== atual) gravPararOuvir();
     passos[atual].hidden = true;
     atual = i;
+    if (ordem[i] === 'cores') desenharPaletas(); // as paletas seguem o ramo digitado antes
     var ps = passos[i]; personalizar(ps); ps.hidden = false;
     ps.classList.toggle('volta', !!volta);
     ps.style.animation = 'none'; void ps.offsetWidth; ps.style.animation = '';
