@@ -274,22 +274,24 @@
   // o "outra". MESMA tabela de solutiva-app/lib/paletas.js (mudou lá, copie aqui). Ramo fora da tabela = as 8 de sempre.
   // Sem cor e sem logo, o servidor escolhe a 1ª do ramo sozinho (não trava a prévia).
   var PALETAS_RAMO = [
-    [/\b(estetic\w*|spa|sobrancelh\w*|cilios|lash\w*|depila\w*|massag\w*|massoterap\w*|manicure|pedicure|nail\w*|unhas?|harmoniza\w*|micropigment\w*|beleza)\b/, [['Rosé, nude e dourado', '#b7787a', '#f8f1ec', '#b8955a'], ['Lilás e branco', '#8a72b8', '#fbfaff', '#d9cff0'], ['Verde-sálvia e creme', '#7d9580', '#f6f2e9', '#c2a878']]],
-    [/\b(barbear\w*|barbeir\w*|barber\w*)\b/, [['Preto, madeira e dourado', '#c19a5b', '#141110', '#6b4a2f'], ['Azul-marinho e cobre', '#c27c4e', '#13213a', '#e9dcc7'], ['Verde-garrafa e creme', '#1f4d3a', '#f4efe4', '#b08d57']]],
-    [/\b(salao|cabeleir\w*|cabelo\w*|hair|trancist\w*|trancas|maquiad\w*|make)\b/, [['Rosé e preto', '#c98b8b', '#151214', '#efe3dc'], ['Nude e dourado', '#a8844f', '#f7f0ea', '#d9c3a5'], ['Terracota e creme', '#b5643f', '#f7f1e8', '#3a2a22']]],
-    [/\b(nutri\w*|dietist\w*|emagrec\w*)\b/, [['Verde e creme', '#4f7d5a', '#f7f4ea', '#c9a96e'], ['Pêssego e branco', '#e08e6d', '#fffaf6', '#5f7f63'], ['Verde-oliva e areia', '#6b7a3a', '#f3eee2', '#c58b5c']]],
-    [/\b(pet\s?shop|pet|veterin\w*|banho e tosa|tosa|cachorr\w*|gatos?)\b/, [['Azul e amarelo-manteiga', '#2f6f9f', '#fff9ec', '#f2c94c'], ['Verde-água e branco', '#3c9d93', '#f7fcfb', '#f29e4c'], ['Laranja e creme', '#e07b39', '#fbf6ee', '#3d5a6c']]],
-    [/\b(psico\w*|terapeut\w*|terapia|psicanal\w*|coach\w*)\b/, [['Verde-sálvia e creme', '#7d9580', '#f6f2e9', '#c07a5a'], ['Terracota suave e areia', '#c07a5a', '#f6efe6', '#5d7a94'], ['Azul-acinzentado e branco', '#5d7a94', '#f8fafb', '#c2a878']]],
-    [/\b(clinica|consultorio|medic\w*|dentist\w*|odonto\w*|fisio\w*|fonoaudi\w*|podolog\w*|ortodont\w*|enfermag\w*|laboratorio|saude)\b/, [['Azul-petróleo e branco', '#1f5f74', '#f8fbfc', '#7fb7c4'], ['Verde-água e branco', '#3c9d93', '#f7fcfb', '#1f4f4a'], ['Lavanda e cinza-claro', '#7c6fb0', '#f6f6fa', '#3f3a5a']]],
-    [/\b(personal|pilates|academia|crossfit|yoga|ioga|funcional|treino\w*|danca)\b/, [['Grafite e laranja', '#e8692c', '#17181a', '#f3efe9'], ['Verde-sálvia e branco', '#6f8f78', '#fafaf7', '#2f3a33'], ['Azul-marinho e areia', '#1d3557', '#f3eee2', '#e0a458']]],
-    [/\b(tatu\w*|tattoo\w*|piercing)\b/, [['Preto e vermelho', '#c0392b', '#111111', '#e9e1d3'], ['Preto e cinza-osso', '#d9cdb8', '#121212', '#8a8178'], ['Verde-garrafa e preto', '#3f8f6b', '#0f1110', '#d9cdb8']]],
-    [/\b(advoca\w*|advogad\w*|contab\w*|contador\w*|escritorio|imobiliari\w*|corretor\w*|consultori\w*|seguros?)\b/, [['Azul-marinho, branco e dourado', '#1b2f4b', '#f8f7f4', '#b08d57'], ['Verde-escuro e creme', '#1f4d3a', '#f6f2e9', '#b08d57'], ['Vinho e cinza-claro', '#7b1e3a', '#f6f5f4', '#2b2b2b']]],
-    [/\b(doce\w*|docinho\w*|confeitar\w*|bolos?|brigadeir\w*|chocolat\w*|tortas?|cupcake\w*)\b/, [['Rosa-chá e creme', '#c98a8f', '#fdf7f2', '#6b4433'], ['Chocolate e creme', '#6b4433', '#fbf5ec', '#d9a679'], ['Lilás e branco', '#8a72b8', '#fbfaff', '#e7b8c4']]],
-    [/\b(acai\w*|sorvet\w*|gelat\w*)\b/, [['Roxo-açaí e creme', '#5b2a6e', '#fbf7f2', '#7bb661'], ['Roxo e branco', '#6a2c86', '#ffffff', '#f2b134']]],
-    [/\b(cafe\w*|cafeteria|padari\w*|panific\w*)\b/, [['Café e creme', '#6b4433', '#f7f1e6', '#c58b5c'], ['Verde-escuro e creme', '#1f4d3a', '#f6f2e9', '#c19a5b'], ['Terracota e areia', '#b5643f', '#f6efe6', '#3a2a22']]],
-    [/\b(japon\w*|sushi|temaki\w*|oriental|poke|ramen)\b/, [['Vermelho e branco-arroz', '#b3261e', '#faf7f2', '#1c1c1c'], ['Preto e vermelho', '#c0392b', '#111111', '#f3efe9']]],
-    [/\b(restaurante|lanchonete|lanche\w*|hamburg\w*|burger|pizz\w*|marmit\w*|comida|cozinha|churrasc\w*|espetinh\w*|pastel\w*|salgad\w*|bar|boteco|food ?truck|delivery|quentinh\w*|self ?service|tapioc\w*|crepe\w*|petisc\w*)\b/, [['Vermelho-tomate e creme', '#c0392b', '#fbf5ea', '#2f5d3a'], ['Verde-oliva e creme', '#5e7a3a', '#f8f3e8', '#c0392b'], ['Preto e mostarda', '#e1a730', '#141210', '#f3efe9']]]
+    [/\b(estetic\w*|spa|sobrancelh\w*|cilios|lash\w*|depila\w*|massag\w*|massoterap\w*|manicure|pedicure|nail\w*|unhas?|harmoniza\w*|micropigment\w*|design de sobrancelh\w*|beleza)\b/, [["Rosé, nude e dourado","#b7787a","#f8f1ec","#b8955a"], ["Lilás e branco","#8a72b8","#fbfaff","#d9cff0"], ["Verde-sálvia e creme","#7d9580","#f6f2e9","#c2a878"], ["Preto e dourado","#b8955a","#141210","#f1e6d8"], ["Azul Tiffany e branco","#0a9a95","#f8fcfc","#d9b8a6"], ["Terracota e areia","#b5643f","#f6efe6","#3a2a22"]]],
+    [/\b(barbear\w*|barbeir\w*|barber\w*)\b/, [["Preto, madeira e dourado","#c19a5b","#141110","#6b4a2f"], ["Azul-marinho e cobre","#c27c4e","#13213a","#e9dcc7"], ["Verde-garrafa e creme","#1f4d3a","#f4efe4","#b08d57"], ["Vinho e preto","#9b2c3f","#121010","#e9dcc7"], ["Chumbo e laranja","#e07b39","#1f2226","#e9e5df"], ["Preto e branco clássico","#111111","#f6f4f0","#b08d57"]]],
+    [/\b(sal[aã]o|cabeleir\w*|cabelo\w*|hair|trancist\w*|trancas|maquiad\w*|make)\b/, [["Rosé e preto","#c98b8b","#151214","#efe3dc"], ["Nude e dourado","#a8844f","#f7f0ea","#d9c3a5"], ["Terracota e creme","#b5643f","#f7f1e8","#3a2a22"], ["Lilás e branco","#8a72b8","#fbfaff","#d9cff0"], ["Preto e dourado","#b8955a","#141210","#f1e6d8"], ["Verde-sálvia e creme","#7d9580","#f6f2e9","#c2a878"]]],
+    [/\b(nutri\w*|dietist\w*|emagrec\w*)\b/, [["Verde e creme","#4f7d5a","#f7f4ea","#c9a96e"], ["Pêssego e branco","#e08e6d","#fffaf6","#5f7f63"], ["Verde-oliva e areia","#6b7a3a","#f3eee2","#c58b5c"], ["Verde-menta e branco","#4f9e86","#f7fcfa","#f2b49b"], ["Laranja e creme","#e07b39","#fbf6ee","#4f7d5a"], ["Azul-petróleo e areia","#1f5f74","#f3eee2","#c9a96e"]]],
+    [/\b(pet\s?shop|pet|veterin\w*|banho e tosa|tosa|cachorr\w*|gatos?)\b/, [["Azul e amarelo-manteiga","#2f6f9f","#fff9ec","#f2c94c"], ["Verde-água e branco","#3c9d93","#f7fcfb","#f29e4c"], ["Laranja e creme","#e07b39","#fbf6ee","#3d5a6c"], ["Rosa e azul-bebê","#e091a8","#f7fbff","#2f6f9f"], ["Verde e amarelo","#3f8f5a","#fffbea","#f2c94c"], ["Roxo e amarelo","#6a4c9c","#fdf9ee","#f2c94c"]]],
+    [/\b(psic[oó]\w*|terapeut\w*|terapia|psicanal\w*|coach\w*)\b/, [["Verde-sálvia e creme","#7d9580","#f6f2e9","#c07a5a"], ["Terracota suave e areia","#c07a5a","#f6efe6","#5d7a94"], ["Azul-acinzentado e branco","#5d7a94","#f8fafb","#c2a878"], ["Lavanda e branco","#7c6fb0","#faf9fd","#c2a878"], ["Rosé e nude","#b7787a","#f8f1ec","#5d7a94"], ["Verde-oliva e creme","#6b7a3a","#f6f2e9","#c07a5a"]]],
+    [/\b(cl[ií]nica|consult[oó]rio|m[eé]dic\w*|dentist\w*|odonto\w*|fisio\w*|fonoaudi\w*|podolog\w*|ortodont\w*|enfermag\w*|laborat[oó]rio|sa[uú]de)\b/, [["Azul-petróleo e branco","#1f5f74","#f8fbfc","#7fb7c4"], ["Verde-água e branco","#3c9d93","#f7fcfb","#1f4f4a"], ["Lavanda e cinza-claro","#7c6fb0","#f6f6fa","#3f3a5a"], ["Azul-marinho e branco","#1b2f4b","#f8fafc","#3c9d93"], ["Verde-sálvia e branco","#6f8f78","#fafaf7","#1f4d3a"], ["Rosé e branco","#b7787a","#fdf9f8","#3f3a5a"]]],
+    [/\b(personal|pilates|academia|crossfit|yoga|ioga|funcional|treino\w*|dan[cç]a)\b/, [["Grafite e laranja","#e8692c","#17181a","#f3efe9"], ["Verde-sálvia e branco","#6f8f78","#fafaf7","#2f3a33"], ["Azul-marinho e areia","#1d3557","#f3eee2","#e0a458"], ["Preto e verde-limão","#9ccc3a","#121412","#f3efe9"], ["Vermelho e preto","#d63a2f","#141414","#f3efe9"], ["Lilás e branco","#7a5bc7","#fbfaff","#2f2a3a"]]],
+    [/\b(tatu\w*|tattoo\w*|piercing)\b/, [["Preto e vermelho","#c0392b","#111111","#e9e1d3"], ["Preto e cinza-osso","#d9cdb8","#121212","#8a8178"], ["Verde-garrafa e preto","#3f8f6b","#0f1110","#d9cdb8"], ["Preto e dourado","#c19a5b","#121110","#e9e1d3"], ["Vinho e preto","#9b2c3f","#100e0e","#d9cdb8"], ["Azul-petróleo e preto","#3f8fa3","#0f1213","#d9cdb8"]]],
+    [/\b(advoca\w*|advogad\w*|contab\w*|contador\w*|escrit[oó]rio|imobili[aá]ri\w*|corretor\w*|consultori\w*|seguros?)\b/, [["Azul-marinho, branco e dourado","#1b2f4b","#f8f7f4","#b08d57"], ["Verde-escuro e creme","#1f4d3a","#f6f2e9","#b08d57"], ["Vinho e cinza-claro","#7b1e3a","#f6f5f4","#2b2b2b"], ["Grafite e azul","#2f6f9f","#f7f8fa","#2b2f36"], ["Preto e dourado","#b08d57","#141414","#f3efe9"], ["Azul-petróleo e areia","#1f5f74","#f3eee2","#b08d57"]]],
+    [/\b(doce\w*|docinho\w*|confeitar\w*|bolos?|brigadeir\w*|chocolat\w*|tortas?|cupcake\w*)\b/, [["Rosa-chá e creme","#c98a8f","#fdf7f2","#6b4433"], ["Chocolate e creme","#6b4433","#fbf5ec","#d9a679"], ["Lilás e branco","#8a72b8","#fbfaff","#e7b8c4"], ["Azul-bebê e branco","#7aa7d6","#f8fbff","#e7b8c4"], ["Pêssego e creme","#e08e6d","#fffaf6","#6b4433"], ["Verde-menta e rosa","#4f9e86","#fdf8f6","#e091a8"]]],
+    [/\b(a[cç]a[ií]\w*|sorvet\w*|gelat\w*)\b/, [["Roxo-açaí e creme","#5b2a6e","#fbf7f2","#7bb661"], ["Roxo e branco","#6a2c86","#ffffff","#f2b134"], ["Roxo-açaí e preto","#9b5bb5","#141014","#7bb661"], ["Vinho e creme","#7b1e3a","#fbf5ec","#7bb661"], ["Roxo e amarelo","#5b2a6e","#fffbea","#f2c94c"], ["Lilás e branco","#8a72b8","#fbfaff","#5b2a6e"]]],
+    [/\b(caf[eé]\w*|cafeteria|padari\w*|panific\w*)\b/, [["Café e creme","#6b4433","#f7f1e6","#c58b5c"], ["Verde-escuro e creme","#1f4d3a","#f6f2e9","#c19a5b"], ["Terracota e areia","#b5643f","#f6efe6","#3a2a22"], ["Preto e caramelo","#c58b5c","#141110","#f3efe9"], ["Azul-marinho e creme","#1b2f4b","#f7f1e6","#c58b5c"], ["Rosé e creme","#b7787a","#fbf5ef","#6b4433"]]],
+    [/\b(japon\w*|sushi|temaki\w*|oriental|poke|ramen)\b/, [["Vermelho e branco-arroz","#b3261e","#faf7f2","#1c1c1c"], ["Preto e vermelho","#c0392b","#111111","#f3efe9"], ["Preto e dourado","#c19a5b","#121110","#b3261e"], ["Verde-chá e creme","#5e7a3a","#f8f3e8","#b3261e"], ["Azul-índigo e branco","#2b3a67","#faf8f4","#b3261e"], ["Laranja e preto","#e07b39","#131211","#f3efe9"]]],
+    [/\b(cardapio|restaurante|lanchonete|lanche\w*|hamburg\w*|burger|pizz\w*|marmit\w*|comida|cozinha|churrasc\w*|espetinh\w*|pastel\w*|salgad\w*|bar|boteco|food ?truck|delivery|quentinh\w*|self ?service|tapioc\w*|crepe\w*|petisc\w*)\b/, [["Vermelho-tomate e creme","#c0392b","#fbf5ea","#2f5d3a"], ["Verde-oliva e creme","#5e7a3a","#f8f3e8","#c0392b"], ["Preto e mostarda","#e1a730","#141210","#f3efe9"], ["Laranja e creme","#e07b39","#fbf6ee","#2f2a26"], ["Vinho e creme","#7b1e3a","#fbf5ea","#c9a96e"], ["Azul-marinho e mostarda","#1b2f4b","#fbf7ee","#e1a730"]]]
   ];
+  // fora da tabela: as 6 gerais (mesma lib/paletas.js GERAL)
+  var PALETAS_GERAL = [["Azul-petróleo e branco","#1f5f74","#f8fbfc","#e0a458"], ["Grafite e laranja","#e8692c","#17181a","#f3efe9"], ["Verde-sálvia e creme","#7d9580","#f6f2e9","#c2a878"], ["Azul-marinho e dourado","#1b2f4b","#f8f7f4","#b08d57"], ["Rosé e nude","#b7787a","#f8f1ec","#b8955a"], ["Preto e dourado","#b8955a","#141210","#f1e6d8"]];
   var PAL_ATUAL = null;
   function paletasDoRamo() {
     var t = String(val('ramo') + ' ' + val('negocio')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -297,19 +299,30 @@
     return null;
   }
   function desenharPaletas() {
-    var doRamo = paletasDoRamo(), lista = doRamo || PALETAS;
+    var doRamo = paletasDoRamo(), lista = doRamo || PALETAS_GERAL;
     if (PAL_ATUAL && JSON.stringify(PAL_ATUAL) === JSON.stringify(lista)) return;
-    PAL_ATUAL = lista; paletasBox.textContent = ''; paletasBox.classList.toggle('do-ramo', !!doRamo);
+    PAL_ATUAL = lista; paletasBox.textContent = ''; paletasBox.classList.add('do-ramo');
     lista.forEach(function (pl) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'paleta'; b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', pl[0]); b.title = pl[0];
       b.innerHTML = '<i></i>'; b.firstChild.style.setProperty('--a', pl[1]); b.firstChild.style.setProperty('--b', pl[2]);
-      if (doRamo) { var s = document.createElement('small'); s.textContent = pl[0]; b.appendChild(s); }
+      var s = document.createElement('small'); s.textContent = pl[0]; b.appendChild(s);
       b.addEventListener('click', function () { coresIn.value = pl[0] + ' (' + pl.slice(1).filter(Boolean).join(', ') + ')'; cor1.value = pl[1]; cor2.value = pl[2]; marcarPaleta(); salvar(); previaJa(); atualizarBotao(); marcarOk(coresIn); robo('r-ok'); });
       paletasBox.appendChild(b);
     });
+    // "As cores da minha logo": o app tira as cores da logo enviada (sem logo, entra a 1ª paleta do ramo)
+    var bl = document.createElement('button'); bl.type = 'button'; bl.className = 'paleta paleta-logo'; bl.setAttribute('aria-pressed', 'false'); bl.title = 'As cores da minha logo';
+    bl.innerHTML = '<i></i><small>As cores da minha logo</small>';
+    bl.addEventListener('click', function () { coresIn.value = 'Cores da logo'; marcarPaleta(); salvar(); previaJa(); atualizarBotao(); marcarOk(coresIn); robo('r-ok'); });
+    paletasBox.appendChild(bl);
     marcarPaleta();
   }
-  function marcarPaleta() { var v = coresIn.value; $$('.paleta', paletasBox).forEach(function (b, i) { var pl = PAL_ATUAL && PAL_ATUAL[i]; b.setAttribute('aria-pressed', String(!!pl && v.indexOf(pl[1]) >= 0 && v.indexOf(pl[2]) >= 0)); }); }
+  function marcarPaleta() {
+    var v = coresIn.value;
+    $$('.paleta', paletasBox).forEach(function (b, i) {
+      if (b.classList.contains('paleta-logo')) { b.setAttribute('aria-pressed', String(/^cores da logo/i.test(v))); return; }
+      var pl = PAL_ATUAL && PAL_ATUAL[i]; b.setAttribute('aria-pressed', String(!!pl && v.indexOf(pl[1]) >= 0 && v.indexOf(pl[2]) >= 0));
+    });
+  }
   desenharPaletas();
   ramoIn.addEventListener('input', desenharPaletas);
   function corLivre() { coresIn.value = ('Cores ' + cor1.value + ' e ' + cor2.value).slice(0, 120); marcarPaleta(); salvar(); previaJa(); atualizarBotao(); }
