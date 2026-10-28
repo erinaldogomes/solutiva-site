@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>Blog da ClickGo</title>
+  <link>https://clickgo.dev.br/blog/</link>
+  <description>Cardápio digital e site com agenda para pequenos negócios.</description>
+  <language>pt-BR</language>
+  <item>
+    <title>Agenda online para salão, barbearia e clínica de estética em Brasília</title>
+    <link>https://clickgo.dev.br/blog/agenda-online-salao-barbearia-estetica-brasilia/</link>
+    <guid>https://clickgo.dev.br/blog/agenda-online-salao-barbearia-estetica-brasilia/</guid>
+    <pubDate>Wed, 28 Oct 2026 15:00:00 GMT</pubDate>
+    <description>Como funciona uma agenda online para salão, barbearia e estética: o cliente pede o horário, você confirma no painel e manda lembrete pelo WhatsApp.</description>
+  </item>
+  <item>
+    <title>Cardápio digital com pedido no WhatsApp: como funciona</title>
+    <link>https://clickgo.dev.br/blog/cardapio-digital-pedido-whatsapp/</link>
+    <guid>https://clickgo.dev.br/blog/cardapio-digital-pedido-whatsapp/</guid>
+    <pubDate>Wed, 28 Oct 2026 15:00:00 GMT</pubDate>
+    <description>O passo a passo do cliente, como o pedido chega no seu WhatsApp e quando vale ter carrinho, taxa por bairro e cupom.</description>
+  </item>
+  <item>
+    <title>Cardápio digital para pizzaria em Brasília: como funciona e quanto custa</title>
+    <link>https://clickgo.dev.br/blog/cardapio-digital-pizzaria-brasilia/</link>
+    <guid>https://clickgo.dev.br/blog/cardapio-digital-pizzaria-brasilia/</guid>
+    <pubDate>Wed, 28 Oct 2026 15:00:00 GMT</pubDate>
+    <description>Como montar o cardápio digital da sua pizzaria com sabores, bordas e taxa por bairro, e quanto custa cada pacote da ClickGo.</description>
+  </item>
+  <item>
+    <title>Cardápio digital ou PDF no Instagram: qual funciona melhor</title>
+    <link>https://clickgo.dev.br/blog/cardapio-digital-x-pdf-instagram/</link>
+    <guid>https://clickgo.dev.br/blog/cardapio-digital-x-pdf-instagram/</guid>
+    <pubDate>Wed, 28 Oct 2026 15:00:00 GMT</pubDate>
+    <description>PDF e foto no Instagram ou cardápio digital em link? Uma comparação honesta, os casos em que o PDF ainda serve e um passo a passo para migrar.</description>
+  </item>
+  <item>
+    <title>QR code na mesa: cardápio digital para restaurante</title>
+    <link>https://clickgo.dev.br/blog/qr-code-mesa-cardapio-digital-restaurante/</link>
+    <guid>https://clickgo.dev.br/blog/qr-code-mesa-cardapio-digital-restaurante/</guid>
+    <pubDate>Wed, 28 Oct 2026 15:00:00 GMT</pubDate>
+    <description>Como imprimir e posicionar o QR Code, quando vale ter um QR por mesa e como manter o cardápio do restaurante sempre atualizado.</description>
+  </item>
+  <item>
+    <title>Site com agendamento para nutricionista: o que precisa ter</title>
+    <link>https://clickgo.dev.br/blog/site-com-agendamento-nutricionista/</link>
+    <guid>https://clickgo.dev.br/blog/site-com-agendamento-nutricionista/</guid>
+    <pubDate>Wed, 28 Oct 2026 15:00:00 GMT</pubDate>
+    <description>O que um site com agendamento para nutricionista precisa ter: apresentação clara, serviços com duração e preço, pedido de horário no WhatsApp e lembrete.</description>
+  </item>
+</channel>
+</rss>
