@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /previews/
+Disallow: /blog/_artigos/
 Sitemap: https://clickgo.dev.br/sitemap.xml
