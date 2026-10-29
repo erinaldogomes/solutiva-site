@@ -191,7 +191,8 @@
   /* ---------- 4) antes do Pix: extras opcionais ---------- */
   function extrasAntes(r) {
     var x = r.extras || {}, i = r.info || {};
-    var cat = Array.isArray(x.catalogo) ? x.catalogo : [];
+    // extras só com o site no ar (seo, logo, premium; app: soNoAr) não entram antes do Pix: a sala vende depois
+    var cat = (Array.isArray(x.catalogo) ? x.catalogo : []).filter(function (c) { return ['seo', 'logo', 'premium'].indexOf(c && c.id) < 0; });
     var sec = $('cge-pre');
     var mostra = !!(x.pode && cat.length && window.CGVitrine && !i.publicado && !i.pixLiberado && !i.projeto && i.versao);
     if (!mostra) { if (sec) sec.hidden = true; return; }

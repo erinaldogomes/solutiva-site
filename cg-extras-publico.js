@@ -13,6 +13,14 @@
     if (qa && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /^http:\/\/(127\.0\.0\.1|localhost):\d{2,5}$/.test(qa)) API = qa + '/api/clickgo';
   } catch (e) { /* */ }
   var ID = /^[a-z0-9]{2,20}$/;
+  // extras SÓ com o site no ar (app: soNoAr em data/precos.json, 28/10/2026): nunca viram caixinha antes da compra; aparecem
+  // como aviso "na sala do seu site" (quem compra é a sala). O app também recusa esses ids antes do site no ar.
+  var SO_SALA = ['seo', 'logo', 'premium'];
+  function daSala(x) { return SO_SALA.indexOf(x.id) >= 0; }
+  function notaSala(lista) {
+    if (!lista.length) return null;
+    return el('p', 'cfe-sub cfe-sala', 'Depois que o site estiver no ar, na sala do seu site: ' + lista.map(function (x) { return x.nome + ' ' + brl(x.valor) + unidade(x); }).join(' · ') + '.');
+  }
   var MIDIA = 'https://clickgo-midia.pages.dev/vitrine/';
   var VIDEOS = [1, 2, 3].map(function (n) { return { src: MIDIA + 'exemplo-video-' + n + '.mp4', poster: MIDIA + 'exemplo-video-' + n + '.jpg' }; });
 
@@ -41,13 +49,14 @@
     var montar = function () {
       if (feito) return; feito = true;
       Promise.all([catalogo(), carregar('/cg-vitrine.css?v=1', true), carregar('/cg-vitrine.js?v=1')]).then(function (r) {
-        var cat = r[0];
+        var todos = r[0], cat = todos.filter(function (x) { return !daSala(x); });
         if (!cat.length || !window.CGVitrine) return;
         home.hidden = false;
         window.CGVitrine.montar(home.querySelector('.esp-lista'), {
           catalogo: cat, videos: VIDEOS,
           aoQuerer: function (id) { if (ID.test(id)) location.href = '/esboco/?extras=' + encodeURIComponent(id); }
         });
+        var ns = notaSala(todos.filter(daSala)); if (ns) home.appendChild(ns);
       }).catch(function () { /* sem vitrine: a seção fica escondida */ });
     };
     if ('IntersectionObserver' in window) {
@@ -67,8 +76,9 @@
   } catch (e) { /* */ }
   function guardar() { try { sessionStorage.setItem('cg_extras', marcados.join(',')); } catch (e) { /* */ } }
   if (caixa) {
-    catalogo().then(function (cat) {
-      if (!cat.length) { marcados = []; return; }
+    catalogo().then(function (todos) {
+      var cat = todos.filter(function (x) { return !daSala(x); }), sala = todos.filter(daSala);
+      if (!cat.length && !sala.length) { marcados = []; return; }
       marcados = marcados.filter(function (id) { return cat.some(function (x) { return x.id === id; }); });
       caixa.textContent = '';
       caixa.appendChild(el('p', 'cfe-t', 'Deixe ainda mais especial (opcional)'));
@@ -92,6 +102,7 @@
         lb.appendChild(cb); lb.appendChild(cx); lb.appendChild(tx); caixa.appendChild(lb);
       });
       caixa.appendChild(total); conta(); guardar();
+      var ns = notaSala(sala); if (ns) caixa.appendChild(ns);
       caixa.hidden = false;
     });
   }
