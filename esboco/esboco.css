@@ -28,8 +28,8 @@ button, input, textarea { font: inherit; color: inherit; }
 /* ===== topo ===== */
 .tp { display: flex; align-items: center; justify-content: space-between; gap: 12px; max-width: 1180px; margin: 0 auto; padding: 14px 16px; }
 .tp-marca { display: inline-flex; align-items: center; gap: 9px; color: var(--txt); text-decoration: none; font: 800 1.12rem/1 var(--titulo); letter-spacing: -.02em; border-radius: 8px; }
-.tp-marca img { width: 28px; height: 28px; transition: transform .5s var(--mola); }
-.tp-marca:hover img { transform: rotate(-8deg) scale(1.08); }
+.tp-marca img, .tp-marca svg.cgl { width: 28px; height: 28px; transition: transform .5s var(--mola); }
+.tp-marca:hover img, .tp-marca:hover svg.cgl { transform: rotate(-8deg) scale(1.08); }
 .tp-selo { font-size: .78rem; font-weight: 600; color: var(--txt-2); padding: 6px 11px; border-radius: 999px; border: 1px solid var(--linha-2); background: var(--sup); }
 
 /* ===== palco: 1 coluna no celular, conversa + prévia no desktop ===== */
@@ -584,7 +584,7 @@ button, input, textarea { font: inherit; color: inherit; }
 
 /* topo */
 .tp { padding-top: 16px; }
-.tp-marca img { width: 32px; height: 32px; }
+.tp-marca img, .tp-marca svg.cgl { width: 32px; height: 32px; }
 .tp-selo { border: 2px solid var(--linha-2); border-radius: 12px; box-shadow: 3px 3px 0 var(--sombra-cor); }
 
 /* progresso: trilho grosso com borda, como os blocos */

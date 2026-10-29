@@ -31,11 +31,11 @@
    dentro. 1 vez ao abrir a página e de novo ao passar o mouse/tocar (cg-tatil.js reinicia). */
 .cg-mk { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--cg-txt); -webkit-tap-highlight-color: transparent; }
 .cg-mk-logo { position: relative; display: inline-grid; place-items: center; flex: none; }
-.cg-mk-logo img { display: block; transform-origin: 40% 60%; }
+.cg-mk-logo img, .cg-mk-logo svg.cgl { display: block; transform-origin: 40% 60%; }
 .cg-mk-onda { position: absolute; right: -2px; bottom: -2px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--cg-destaque); opacity: 0; pointer-events: none; }
 .cg-mk-wm { display: inline-flex; align-items: baseline; font-family: var(--titulo, 'Bricolage Grotesque', system-ui, sans-serif); font-weight: 800; letter-spacing: -.02em; }
 .cg-mk-wm b { display: inline-block; font-weight: 800; color: var(--cg-destaque); transform-origin: 0 100%; }
-.cg-mk.cg-mk-vai .cg-mk-logo img { animation: cgMkClique .9s var(--t-mola) both; }
+.cg-mk.cg-mk-vai .cg-mk-logo img, .cg-mk.cg-mk-vai .cg-mk-logo svg.cgl { animation: cgMkClique .9s var(--t-mola) both; }
 .cg-mk.cg-mk-vai .cg-mk-onda { animation: cgMkOnda .8s ease-out .18s both; }
 .cg-mk.cg-mk-vai .cg-mk-wm b { animation: cgMkGo .8s var(--t-mola) .32s both; }
 @keyframes cgMkClique { 0% { transform: none; } 22% { transform: translate(2px, 2px) scale(.88) rotate(-4deg); } 55% { transform: translate(0, -2px) scale(1.06) rotate(3deg); } 100% { transform: none; } }
