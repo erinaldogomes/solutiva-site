@@ -266,6 +266,22 @@ h2 em { color: var(--ac); }
   .trab::before { display: none; }
 }
 
+/* ===== caso real (English at Home): texto + 3 telas de celular; sólido, sem vidro ===== */
+.sec-caso { background: var(--sup-2); border-top: 2px solid var(--txt); border-bottom: 2px solid var(--txt); }
+.caso { display: grid; gap: 40px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 960px) { .caso { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; } }
+.caso-selo { display: inline-block; margin: 0 0 18px; padding: 7px 12px; border-radius: 4px 4px 12px 4px; background: var(--txt); color: var(--fundo); font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.caso-txt .lead { margin: 18px 0 0; }
+.caso-feito { list-style: none; margin: 22px 0 26px; padding: 0; max-width: 40ch; }
+.caso-feito li { position: relative; padding: 11px 0 11px 28px; border-bottom: 1px solid var(--linha-2); font-weight: 500; }
+.caso-feito li::before { content: ''; position: absolute; left: 2px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 2px 2px 6px 2px; background: var(--ac); }
+.caso-telas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 2vw, 22px); align-items: start; }
+.caso-telas figure { margin: 0; }
+.caso-telas figure:nth-child(2) { margin-top: clamp(18px, 4vw, 44px); }
+.caso-telas img { display: block; width: 100%; height: auto; border: 2px solid var(--txt); border-radius: 6px 6px 18px 6px; background: #0b0f1a; box-shadow: 5px 5px 0 var(--ac); transition: transform .4s var(--mola); }
+.caso-telas figure:hover img { transform: translateY(-6px); }
+.caso-telas figcaption { margin-top: 10px; font-size: .82rem; font-weight: 600; color: var(--txt-2); }
+
 /* ===== como funciona: número gigante grudado (a sequência é a informação) ===== */
 .indice-g { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 960px) { .indice-g { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 72px; align-items: start; } }
@@ -352,7 +368,7 @@ h2 em { color: var(--ac); }
     .agenda { animation: desliza linear both; animation-timeline: view(); animation-range: entry 5% cover 35%; }
     .ficha { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
     .cab h2 { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
-    .trab, .artigos li, .faq details { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+    .trab, .caso-telas figure, .artigos li, .faq details { animation: rv linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
     .fim h2 { animation: cresce linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
   }
   @supports not (animation-timeline: view()) {

@@ -25,7 +25,7 @@
   // ---- entrada ao rolar onde o CSS não sabe animation-timeline ----
   if (!(w.CSS && CSS.supports && CSS.supports('animation-timeline: view()')) && 'IntersectionObserver' in w) {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -10% 0px' });
-    $$('.cab h2, .ficha, .demo-fone, .agenda, .trab, .artigos li, .faq details, .fim h2').forEach(function (el) { el.classList.add('rv'); io.observe(el); });
+    $$('.cab h2, .ficha, .demo-fone, .agenda, .trab, .caso-telas figure, .artigos li, .faq details, .fim h2').forEach(function (el) { el.classList.add('rv'); io.observe(el); });
   }
   // os "checks" marcam ao entrar (também com animation-timeline, que não sabe pôr classe)
   if ('IntersectionObserver' in w) {
