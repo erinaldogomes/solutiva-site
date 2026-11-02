@@ -6,7 +6,9 @@
        aoQuerer: function (id) { ... },        // botão "Quero"
        videos: [{ src, poster }]               // opcional, para o extra 'video'
      })  -> { elemento, destruir() }
-   Ids com demo: 'animacao', 'ultra', 'secao', 'mudancas4', 'video'. Id desconhecido = cartão simples.
+   Ids com demo: 'animacao', 'ultra', 'secao', 'mudancas4', 'video', 'logo', 'premium', 'seo'. Id desconhecido = cartão simples.
+   modo: 'caixinha' (02/11/2026, extras NA COMPRA no /acompanhar): o pé do cartão vira uma caixinha "Somar ao pedido";
+     marcados: [ids] marca as iniciais; aoMarcar(id, ligado) avisa a troca; o retorno ganha marcar(ids) para sincronizar.
    Demos só se mexem com o cartão na tela; com prefers-reduced-motion ficam paradas (quadro completo) e o vídeo
    não toca sozinho (botão de play). Estilos em cg-vitrine.css. As animações de exemplo são cópias geradas das
    animações-base do app (bloco <<base-animacoes>>; não editar à mão). */
@@ -183,6 +185,40 @@
     };
   };
 
+  /* logo animado: as peças de um logo de exemplo chegam uma por uma e o nome desliza ao lado */
+  DEMOS.logo = function () {
+    return {
+      palco: '<div class="cgv-lg"><svg viewBox="0 0 220 120" focusable="false">' +
+        '<g class="cgv-lg-marca"><rect class="cgv-lg-p1 cgv-m" x="20" y="30" width="60" height="60" rx="16"/>' +
+        '<circle class="cgv-lg-p2 cgv-m" cx="50" cy="60" r="17"/>' +
+        '<path class="cgv-lg-p3 cgv-m" d="M44 52l16 8-16 8z"/></g>' +
+        '<rect class="cgv-lg-n1 cgv-m" x="96" y="44" width="96" height="14" rx="7"/>' +
+        '<rect class="cgv-lg-n2 cgv-m" x="96" y="66" width="62" height="9" rx="4.5"/>' +
+        '</svg></div>'
+    };
+  };
+
+  /* site premium: um celular com a página rolando; cada bloco entra quando chega na tela (como no site de verdade) */
+  DEMOS.premium = function () {
+    var blocos = '';
+    for (var i = 0; i < 4; i++) blocos += '<div class="cgv-pr-b cgv-pr-b' + i + '"><i></i><b></b><b></b></div>';
+    return {
+      palco: '<div class="cgv-pr"><div class="cgv-pr-tela"><div class="cgv-pr-rolo">' +
+        '<div class="cgv-pr-hero"><span></span><span></span><em></em></div>' + blocos +
+        '</div></div><span class="cgv-pr-dedo" aria-hidden="true"></span></div>'
+    };
+  };
+
+  /* SEO mensal: uma busca no Google em que o resultado do cliente sobe para o 1º lugar */
+  DEMOS.seo = function () {
+    var r = '';
+    for (var i = 0; i < 3; i++) r += '<div class="cgv-seo-r cgv-seo-o' + i + '"><i></i><b></b></div>';
+    return {
+      palco: '<div class="cgv-seo"><div class="cgv-seo-busca"><svg viewBox="0 0 16 16" focusable="false"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4L14 14"/></svg><span></span></div>' +
+        '<div class="cgv-seo-lista">' + r + '<div class="cgv-seo-r cgv-seo-voce"><i></i><b></b><span>seu site</span></div></div></div>'
+    };
+  };
+
   /* ---------- cartão ---------- */
   function cartao(item, idx, op) {
     var id = String(item && item.id || '');
@@ -203,7 +239,9 @@
           (pr ? '<p class="cgv-preco"><strong>' + esc(pr) + '</strong>' + (un ? '<span class="cgv-unid">' + un + '</span>' : '') + '</p>' : '') + '</div>' +
         (item && item.desc ? '<p class="cgv-desc">' + esc(item.desc) + '</p>' : '') +
         (item && item.prazo ? '<p class="cgv-prazo">' + RELOGIO + esc(item.prazo) + '</p>' : '') +
-        '<div class="cgv-pe"><button type="button" class="cgv-quero" aria-label="' + esc(rot) + '"><span class="cgv-quero-face">Quero' + SETA + '</span></button></div>' +
+        (op && op.modo === 'caixinha'
+          ? '<div class="cgv-pe"><label class="cgv-caixa"><input type="checkbox" class="cgv-marca" value="' + esc(id) + '"' + ((op.marcados || []).indexOf(id) >= 0 ? ' checked' : '') + ' aria-label="' + esc('Somar ' + nome + (pr ? ', ' + pr + (un && un !== 'valor único' ? ' ' + un : '') : '') + ' ao pedido') + '"><span class="cgv-caixa-q" aria-hidden="true"></span><span class="cgv-caixa-t">Somar ao pedido</span></label></div>'
+          : '<div class="cgv-pe"><button type="button" class="cgv-quero" aria-label="' + esc(rot) + '"><span class="cgv-quero-face">Quero' + SETA + '</span></button></div>') +
       '</div>';
     if (demo && demo.foraDoPalco) {
       // o play do vídeo fica por cima do palco, mas fora do aria-hidden
@@ -250,8 +288,20 @@
       f.appendChild(w);
       setTimeout(function () { if (w.parentNode) w.parentNode.removeChild(w); }, 650);
     }
+    function aoMudar(ev) {
+      var cx = ev.target;
+      if (!cx || !cx.classList || !cx.classList.contains('cgv-marca') || !elemento.contains(cx)) return;
+      var card = cx.closest('.cgv-card'); if (card) card.classList.toggle('cgv-marcado', cx.checked);
+      if (typeof op.aoMarcar === 'function') op.aoMarcar(cx.value, cx.checked);
+    }
     elemento.addEventListener('click', aoClicar);
     elemento.addEventListener('pointerdown', aoApertar);
+    elemento.addEventListener('change', aoMudar);
+    function marcarIds(ids) {
+      var l = elemento.querySelectorAll('.cgv-marca');
+      for (var k = 0; k < l.length; k++) { var on = (ids || []).indexOf(l[k].value) >= 0; l[k].checked = on; var cd = l[k].closest('.cgv-card'); if (cd) cd.classList.toggle('cgv-marcado', on); }
+    }
+    if (op.modo === 'caixinha') marcarIds(op.marcados || []);
 
     var io = null;
     function marcar(c, on) {
@@ -272,11 +322,13 @@
 
     return {
       elemento: elemento,
+      marcar: marcarIds,
       destruir: function () {
         if (io) io.disconnect();
         for (var k = 0; k < cards.length; k++) if (cards[k].ctl && cards[k].ctl.destruir) cards[k].ctl.destruir();
         elemento.removeEventListener('click', aoClicar);
         elemento.removeEventListener('pointerdown', aoApertar);
+        elemento.removeEventListener('change', aoMudar);
         elemento.innerHTML = '';
         elemento.classList.remove('cgv', 'cgv-pronto');
       }

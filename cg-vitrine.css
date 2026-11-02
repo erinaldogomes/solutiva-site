@@ -521,3 +521,82 @@
 @keyframes cgaCbFolha{0%,62%{opacity:0;transform:scale(0) rotate(-40deg)}72%{opacity:1;transform:scale(1) rotate(0)}80%{transform:rotate(-8deg)}86%{transform:rotate(0)}90%{opacity:1}100%{opacity:0;transform:scale(.8)}}
 
 /* <</base-animacoes>> */
+
+/* ===================== modo caixinha (extras NA COMPRA, 02/11/2026) ===================== */
+.cgv-caixa { position: relative; display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 14px; border: 2px solid var(--cgv-linha); border-radius: 12px; background: var(--cgv-palco); color: var(--cgv-txt); font-weight: 700; cursor: pointer; transition: transform .18s var(--cgv-saida); }
+.cgv-caixa:hover { transform: translateY(-2px); }
+.cgv-caixa:active { transform: translateY(1px); }
+.cgv-caixa input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cgv-caixa-q { position: relative; flex: none; width: 22px; height: 22px; border: 2px solid var(--cgv-txt-2); border-radius: 6px; background: var(--cgv-sup); }
+.cgv-caixa-q::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid var(--cgv-tinta); border-width: 0 3px 3px 0; transform: rotate(45deg) scale(0); opacity: 0; transition: transform .22s var(--cgv-mola), opacity .12s; }
+.cgv-caixa input:checked + .cgv-caixa-q { background: var(--cgv-dest); border-color: var(--cgv-dest); }
+.cgv-caixa input:checked + .cgv-caixa-q::after { transform: rotate(45deg) scale(1); opacity: 1; }
+.cgv-caixa input:focus-visible + .cgv-caixa-q { outline: 3px solid var(--cgv-dest); outline-offset: 2px; }
+.cgv-card.cgv-marcado { border-color: var(--cgv-dest); }
+
+/* ===================== demo: logo animado ===================== */
+.cgv-lg { width: 78%; max-width: 270px; }
+.cgv-lg svg { display: block; width: 100%; height: auto; overflow: visible; }
+.cgv-lg .cgv-m { transform-box: fill-box; transform-origin: 50% 50%; }
+.cgv-lg-p1 { fill: var(--cgv-marca); }
+.cgv-lg-p2 { fill: var(--cgv-mostarda); }
+.cgv-lg-p3 { fill: var(--cgv-tinta); }
+.cgv-lg .cgv-lg-n1 { fill: var(--cgv-txt); transform-origin: 0 50%; }
+.cgv-lg .cgv-lg-n2 { fill: var(--cgv-txt-3); transform-origin: 0 50%; }
+.cgv-vivo .cgv-lg-p1 { animation: cgvLgCai 6s var(--cgv-mola) infinite both; }
+.cgv-vivo .cgv-lg-p2 { animation: cgvLgGira 6s var(--cgv-mola) infinite both; }
+.cgv-vivo .cgv-lg-p3 { animation: cgvLgPlay 6s var(--cgv-mola) infinite both; }
+.cgv-vivo .cgv-lg-n1 { animation: cgvLgNome 6s var(--cgv-saida) infinite both; }
+.cgv-vivo .cgv-lg-n2 { animation: cgvLgNome2 6s var(--cgv-saida) infinite both; }
+@keyframes cgvLgCai { 0% { opacity: 0; transform: translateY(-40px) rotate(-12deg) scale(.7); } 12% { opacity: 1; transform: none; } 86% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: scale(.9); } }
+@keyframes cgvLgGira { 0%, 8% { opacity: 0; transform: scale(0) rotate(-180deg); } 22% { opacity: 1; transform: none; } 86% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: scale(.9); } }
+@keyframes cgvLgPlay { 0%, 18% { opacity: 0; transform: translateX(-14px) scale(.5); } 30% { opacity: 1; transform: none; } 40% { transform: scale(1.18); } 46% { transform: none; } 86% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: none; } }
+@keyframes cgvLgNome { 0%, 28% { opacity: 0; transform: scaleX(0); } 42% { opacity: 1; transform: none; } 86% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: none; } }
+@keyframes cgvLgNome2 { 0%, 36% { opacity: 0; transform: scaleX(0); } 50% { opacity: 1; transform: none; } 86% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: none; } }
+
+/* ===================== demo: site premium (a página rolando no celular, cada bloco entra ao chegar) ===================== */
+.cgv-pr { position: relative; width: 132px; height: 200px; padding: 8px; border-radius: 22px; background: #f6f3ee; border: 2px solid var(--cgv-sombra); box-shadow: 4px 4px 0 var(--cgv-sombra); }
+.cgv-pr-tela { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 14px; background: #fff; border: 1.5px solid #e4ddd1; }
+.cgv-pr-rolo { display: grid; gap: 8px; padding: 8px; }
+.cgv-pr-hero { display: grid; gap: 5px; height: 92px; align-content: end; padding: 8px; border-radius: 10px; background: #2b2f38; }
+.cgv-pr-hero span { display: block; height: 7px; width: 80%; border-radius: 4px; background: #fff; }
+.cgv-pr-hero span + span { width: 54%; height: 5px; background: #b9b1a4; }
+.cgv-pr-hero em { display: block; width: 46%; height: 12px; margin-top: 3px; border-radius: 6px; background: #d9472b; }
+.cgv-pr-b { display: grid; grid-template-columns: 22px 1fr; grid-template-rows: auto auto; gap: 4px 7px; align-items: center; padding: 7px; border-radius: 9px; border: 1.5px solid #e4ddd1; background: #faf8f4; }
+.cgv-pr-b i { grid-row: span 2; width: 22px; height: 22px; border-radius: 7px; background: #e9a23b; }
+.cgv-pr-b:nth-child(odd) i { background: #d9472b; }
+.cgv-pr-b b { display: block; height: 5px; width: 90%; border-radius: 3px; background: #2b2f38; }
+.cgv-pr-b b + b { width: 60%; background: #c9c2b6; }
+.cgv-pr-dedo { position: absolute; right: -10px; bottom: 30px; width: 22px; height: 22px; border-radius: 50%; background: var(--cgv-dest); border: 2px solid var(--cgv-sombra); opacity: 0; }
+.cgv-vivo .cgv-pr-rolo { animation: cgvPrRola 6s var(--cgv-vaivem) infinite both; }
+.cgv-vivo .cgv-pr-dedo { animation: cgvPrDedo 6s var(--cgv-vaivem) infinite both; }
+.cgv-vivo .cgv-pr-b { animation: cgvPrEntra 6s var(--cgv-saida) infinite both; }
+.cgv-vivo .cgv-pr-b1 { animation-delay: .5s; }
+.cgv-vivo .cgv-pr-b2 { animation-delay: 1.2s; }
+.cgv-vivo .cgv-pr-b3 { animation-delay: 1.9s; }
+.cgv-vivo .cgv-pr-hero > * { animation: cgvPrHero 6s var(--cgv-saida) infinite both; }
+.cgv-vivo .cgv-pr-hero > :nth-child(2) { animation-delay: .1s; }
+.cgv-vivo .cgv-pr-hero > :nth-child(3) { animation-delay: .2s; }
+@keyframes cgvPrRola { 0%, 10% { transform: translateY(0); } 55%, 80% { transform: translateY(-112px); } 92%, 100% { transform: translateY(0); } }
+@keyframes cgvPrDedo { 0%, 8% { opacity: 0; transform: translateY(0); } 12% { opacity: 1; } 50% { opacity: 1; transform: translateY(-70px); } 56%, 100% { opacity: 0; transform: translateY(-70px); } }
+@keyframes cgvPrEntra { 0%, 8% { opacity: 0; transform: translate3d(-16px, 10px, 0) rotate(-2deg); } 22% { opacity: 1; transform: none; } 84% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: none; } }
+@keyframes cgvPrHero { 0% { opacity: 0; transform: translateY(8px); } 8% { opacity: 1; transform: none; } 100% { opacity: 1; transform: none; } }
+
+/* ===================== demo: SEO (o resultado do cliente sobe na busca) ===================== */
+.cgv-seo { width: 78%; max-width: 270px; display: grid; gap: 8px; }
+.cgv-seo-busca { display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border-radius: 15px; background: #fff; border: 2px solid var(--cgv-sombra); }
+.cgv-seo-busca svg { width: 14px; height: 14px; fill: none; stroke: #2b2f38; stroke-width: 2; stroke-linecap: round; }
+.cgv-seo-busca span { height: 6px; width: 58%; border-radius: 3px; background: #c9c2b6; }
+.cgv-seo-lista { position: relative; display: grid; gap: 6px; }
+.cgv-seo-r { position: relative; display: grid; gap: 4px; padding: 7px 10px; border-radius: 9px; background: var(--cgv-sup); border: 1.5px solid var(--cgv-linha); }
+.cgv-seo-r i { display: block; height: 6px; width: 64%; border-radius: 3px; background: var(--cgv-marca); }
+.cgv-seo-r b { display: block; height: 5px; width: 88%; border-radius: 3px; background: var(--cgv-txt-3); }
+.cgv-seo-voce { position: absolute; left: 0; right: 0; top: 0; border: 2px solid var(--cgv-dest); background: var(--cgv-palco); }
+.cgv-seo-voce i { background: var(--cgv-dest); }
+.cgv-seo-voce span { position: absolute; right: 8px; top: 6px; font: 700 10px/1 system-ui, sans-serif; color: var(--cgv-dest); }
+.cgv-seo-o0, .cgv-seo-o1, .cgv-seo-o2 { transform: translateY(calc(100% + 6px)); }
+.cgv-vivo .cgv-seo-voce { animation: cgvSeoSobe 6s var(--cgv-mola) infinite both; }
+.cgv-vivo .cgv-seo-o0, .cgv-vivo .cgv-seo-o1, .cgv-vivo .cgv-seo-o2 { animation: cgvSeoDesce 6s var(--cgv-saida) infinite both; }
+@keyframes cgvSeoSobe { 0%, 12% { transform: translateY(calc(300% + 18px)); } 46%, 86% { transform: translateY(0); } 100% { transform: translateY(calc(300% + 18px)); } }
+@keyframes cgvSeoDesce { 0%, 18% { transform: translateY(0); } 46%, 86% { transform: translateY(calc(100% + 6px)); } 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .cgv-caixa, .cgv-caixa-q::after { transition: none; } }

@@ -13,9 +13,9 @@
     if (qa && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /^http:\/\/(127\.0\.0\.1|localhost):\d{2,5}$/.test(qa)) API = qa + '/api/clickgo';
   } catch (e) { /* */ }
   var ID = /^[a-z0-9]{2,20}$/;
-  // extras SÓ com o site no ar (app: soNoAr em data/precos.json, 28/10/2026): nunca viram caixinha antes da compra; aparecem
-  // como aviso "na sala do seu site" (quem compra é a sala). O app também recusa esses ids antes do site no ar.
-  var SO_SALA = ['seo', 'logo', 'premium'];
+  // 02/11/2026 (dono): SEO mensal, logo animado e site premium também entram NA COMPRA (caixinha como os outros, o app
+  // aceita e recalcula); a lista dos que só a sala vende ficou vazia, mas o caminho fica para um extra futuro só da sala.
+  var SO_SALA = [];
   function daSala(x) { return SO_SALA.indexOf(x.id) >= 0; }
   function notaSala(lista) {
     if (!lista.length) return null;
@@ -48,7 +48,7 @@
     var feito = false;
     var montar = function () {
       if (feito) return; feito = true;
-      Promise.all([catalogo(), carregar('/cg-vitrine.css?v=1', true), carregar('/cg-vitrine.js?v=1')]).then(function (r) {
+      Promise.all([catalogo(), carregar('/cg-vitrine.css?v=2', true), carregar('/cg-vitrine.js?v=2')]).then(function (r) {
         var todos = r[0], cat = todos.filter(function (x) { return !daSala(x); });
         if (!cat.length || !window.CGVitrine) return;
         home.hidden = false;

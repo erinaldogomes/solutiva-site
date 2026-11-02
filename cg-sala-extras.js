@@ -2,7 +2,7 @@
    1) "Guarde este link" forte (link real, Copiar, favoritos, clickgo.dev.br/entrar);
    2) tela de mudança com 3 botões (fotos / texto ou preço / item), até 6 fotos, tipo "mudanca" + acao;
    3) VITRINE de extras com o site no ar (CGVitrine; "Quero" -> descreve -> tipo "extra"; o pagamento aparece no quadro do Pix);
-   4) ANTES do Pix: extras opcionais (tipo "extras"; o total e o sinal vêm do app).
+   4) ANTES do Pix: extras opcionais em caixinhas, inclusive SEO, logo animado e premium (tipo "extras"; o total cobrado e o sinal vêm do app).
    Preço SEMPRE do catálogo que o app mandou (r.sala.vitrine / r.extras.catalogo); nada de número escrito aqui.
    acompanhar.js chama window.CGSalaExtras.desenhar(estado, { mandar, toast, copiar }) a cada atualização. Sem script inline. */
 (function () {
@@ -188,43 +188,61 @@
     void i;
   }
 
-  /* ---------- 4) antes do Pix: extras opcionais ---------- */
+  /* ---------- 4) antes do Pix: extras NA COMPRA, em caixinhas (dono 02/11/2026) ---------- */
+  // Todo o catálogo à venda (inclusive SEO mensal, logo animado e site premium), cada um com a sua demo. Marcar/desmarcar manda
+  // a lista inteira de ids (tipo "extras"); a nuvem confere os ids e o app recalcula valor e sinal no SERVIDOR. O total daqui é
+  // só a conta para mostrar (preços do catálogo que o app mandou); o que vale é o "sinal ao aprovar" que volta do app.
+  var preTimer = null, preIds = null;
+  function somaPre(cat, ids, mensal) {
+    return Math.round(cat.reduce(function (t, c) { return t + (ids.indexOf(c.id) >= 0 && (mensal ? c.unidade === 'mes' : true) ? Number(c.valor) || 0 : 0); }, 0) * 100) / 100;
+  }
+  function totalPre(sec, r, cat, ids) {
+    var i = r.info || {}, box = sec.querySelector('.cge-pre-total'); box.innerHTML = '';
+    var pac = ((r.pacotes || []).filter(function (p) { return p.escolhido; })[0]) || null;
+    var ext = somaPre(cat, ids, false), mes = somaPre(cat, ids, true);
+    var base = pac ? Number(pac.implantacao) || 0 : 0;
+    var linha = function (rot, val, cls) { var d = el('p', 'cge-pt-l' + (cls ? ' ' + cls : '')); d.appendChild(el('span', '', rot)); d.appendChild(el('b', '', val)); box.appendChild(d); };
+    if (pac && base) linha('Seu pacote (' + pac.pacote + ')', brl(base));
+    linha(ids.length ? 'Extras marcados (' + ids.length + ')' : 'Extras marcados', ids.length ? '+ ' + brl(ext) : brl(0));
+    if (pac && base) linha('Total previsto', brl(base + ext), 'cge-pt-forte');
+    if (mes > 0 || (pac && Number(pac.mensalidade) > 0)) linha('Por mês, depois que o site for ao ar', brl((pac ? Number(pac.mensalidade) || 0 : 0) + mes) + (mes > 0 ? ' (com o SEO)' : ''));
+    if (i.sinalPrevisto) linha('Sinal ao aprovar (50%)', brl(i.sinalPrevisto), 'cge-pt-sinal');
+    box.appendChild(el('p', 'cge-pt-nota', mes > 0 ? 'O 1º mês do SEO já entra no total; depois ele soma na mensalidade.' : 'Metade agora, metade na entrega.'));
+  }
   function extrasAntes(r) {
     var x = r.extras || {}, i = r.info || {};
-    // extras só com o site no ar (seo, logo, premium; app: soNoAr) não entram antes do Pix: a sala vende depois
-    var cat = (Array.isArray(x.catalogo) ? x.catalogo : []).filter(function (c) { return ['seo', 'logo', 'premium'].indexOf(c && c.id) < 0; });
+    var cat = (Array.isArray(x.catalogo) ? x.catalogo : []).filter(function (c) { return c && /^[a-z0-9]{2,20}$/.test(String(c.id)) && Number(c.valor) > 0; });
     var sec = $('cge-pre');
     var mostra = !!(x.pode && cat.length && window.CGVitrine && !i.publicado && !i.pixLiberado && !i.projeto && i.versao);
     if (!mostra) { if (sec) sec.hidden = true; return; }
     if (!sec) {
       sec = el('section', 'cge-vitrine cge-pre'); sec.id = 'cge-pre'; sec.setAttribute('aria-labelledby', 'cge-p-t');
-      sec.innerHTML = '<h2 id="cge-p-t">Deixe ainda mais especial <small>(opcional)</small></h2><p class="cg-sub">Marque o que quiser: soma no total e metade vai no sinal. Dá para tirar antes de aprovar.</p>' +
-        '<div class="cge-escolhidos" aria-live="polite"></div><div class="cge-v-lista"></div>';
+      sec.innerHTML = '<h2 id="cge-p-t">Quer somar algum extra? <small>(opcional)</small></h2><p class="cg-sub">Marque o que quiser. Dá para desmarcar até aprovar.</p>' +
+        '<div class="cge-v-lista"></div><div class="cge-pre-total" aria-live="polite"></div>';
       var pac = $('pacotes');
       if (pac && pac.parentNode) depois(pac, sec); else $('tudo').appendChild(sec);
     }
     sec.hidden = false;
-    var esc = (x.escolhidos || []).slice();
-    var mandarSet = function (lista) { return api.mandar('', { tipo: 'extras', extras: lista }).then(function () { api.toast(lista.length ? 'Extras anotados! O valor do sinal aparece atualizado aqui.' : 'Extras retirados.'); }); };
+    var esc = (x.escolhidos || []).filter(function (id) { return cat.some(function (c) { return c.id === id; }); });
     var ass = JSON.stringify(cat);
     if (mont.preAss !== ass) {
       if (mont.pre) mont.pre.destruir();
-      mont.pre = window.CGVitrine.montar(sec.querySelector('.cge-v-lista'), { catalogo: cat, videos: VIDEOS, aoQuerer: function (id) {
-        var atual = ((est && est.extras && est.extras.escolhidos) || []).slice();
-        if (atual.indexOf(id) >= 0) { api.toast('Esse extra já está no seu pedido.'); return; }
-        mandarSet(atual.concat(id)).catch(function () {});
+      mont.pre = window.CGVitrine.montar(sec.querySelector('.cge-v-lista'), { catalogo: cat, videos: VIDEOS, modo: 'caixinha', marcados: esc, aoMarcar: function (id, ligado) {
+        var atual = (preIds || ((est && est.extras && est.extras.escolhidos) || [])).filter(function (z) { return z !== id; });
+        if (ligado) atual.push(id);
+        preIds = atual.slice(0, 6);
+        totalPre(sec, est, cat, preIds);
+        clearTimeout(preTimer);
+        preTimer = setTimeout(function () {
+          var lista = preIds;
+          api.mandar('', { tipo: 'extras', extras: lista }).then(function () { api.toast(lista.length ? 'Extras anotados! O sinal atualiza aqui em instantes.' : 'Extras retirados.'); })
+            .catch(function () {}).finally(function () { preIds = null; });
+        }, 700);
       } });
       mont.preAss = ass;
     }
-    var box = sec.querySelector('.cge-escolhidos'); box.innerHTML = '';
-    esc.forEach(function (id) {
-      var it = cat.filter(function (c) { return c.id === id; })[0]; if (!it) return;
-      var ch = el('span', 'cge-chip on', '✓ ' + it.nome + ' ' + brl(it.valor) + ' ');
-      var t = el('button', 'cge-tirar', 'tirar'); t.type = 'button'; t.setAttribute('aria-label', 'Tirar ' + it.nome);
-      t.onclick = function () { mandarSet(esc.filter(function (z) { return z !== id; })).catch(function () {}); };
-      ch.appendChild(t); box.appendChild(ch);
-    });
-    if (esc.length && x.total > 0) box.appendChild(el('span', 'cge-total', 'Extras: ' + brl(x.total) + (i.sinalPrevisto ? ' · sinal ao aprovar: ' + brl(i.sinalPrevisto) : '')));
+    if (!preIds && mont.pre && mont.pre.marcar) mont.pre.marcar(esc);
+    totalPre(sec, r, cat, preIds || esc);
   }
 
   function desenhar(r, fns) {

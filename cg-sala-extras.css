@@ -44,3 +44,13 @@
 @keyframes cge-sobe { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes cge-pop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .cge-guarde, .cge-m-form, .cge-vitrine, .cge-chip, .cge-quero { animation: none; } .cge-m-bt, .cge-g-copiar { transition: none; } }
+
+/* extras NA COMPRA (02/11/2026): conta que soma enquanto marca; o sinal que vale vem do app */
+.cge-pre-total { position: sticky; bottom: 12px; z-index: 2; display: grid; gap: 6px; max-width: 520px; margin: 18px auto 0; padding: 14px 16px; border: 2px solid var(--cg-linha-2, #33425c); border-radius: 14px; background: var(--cg-sup-2, #141d2d); box-shadow: 4px 4px 0 var(--t-sombra-cor, #1a2741); }
+.cge-pt-l { display: flex; justify-content: space-between; gap: 12px; margin: 0; font-size: .92rem; color: var(--cg-txt-2, #ccd5e3); }
+.cge-pt-l b { color: var(--cg-txt, #eef2f8); font-variant-numeric: tabular-nums; }
+.cge-pt-forte { padding-top: 6px; border-top: 1px solid var(--cg-linha, #232f44); font-size: 1rem; }
+.cge-pt-forte b, .cge-pt-sinal b { color: var(--cg-destaque-claro, #9fe6ff); }
+.cge-pt-nota { margin: 2px 0 0; font-size: .8rem; color: var(--cg-txt-3, #b3bed0); }
+@media (prefers-reduced-motion: no-preference) { .cge-pt-l b { display: inline-block; animation: cgePtEntra .3s cubic-bezier(.22, 1, .36, 1) both; } }
+@keyframes cgePtEntra { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
