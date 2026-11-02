@@ -50,11 +50,13 @@
   function svgIc(nome) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + IC[nome] + '"/></svg>'; }
 
   var RAMOS = {
-    // 23/10/2026 (dono): a ClickGo vende só cardápio digital e SITE COM AGENDA; o site comum está em construção
+    // 23/10/2026: cardápio digital e SITE COM AGENDA. 02/11/2026 (dono): a landing page voltou à venda como "Página do negócio"
+    // (value pagina; manda tipo 'site' sem 'agendar' e o app escolhe Landing ou Site com agenda pelo ramo)
     site: ['Barbearia', 'Salão de beleza', 'Clínica', 'Odontologia', 'Estética', 'Manicure', 'Psicólogo', 'Fisioterapia', 'Pet shop', 'Pilates', 'Personal trainer', 'Tatuagem'],
     cardapio: ['Restaurante', 'Lanchonete', 'Pizzaria', 'Hamburgueria', 'Açaí', 'Cafeteria', 'Doceria', 'Marmitaria'],
     sistema: ['Clínica', 'Escritório', 'Contabilidade', 'Advocacia', 'Escola', 'Loja', 'Imobiliária', 'Indústria']
   };
+  RAMOS.pagina = ['Loja', 'Advocacia', 'Contabilidade', 'Fotografia', 'Arquitetura', 'Oficina', 'Imobiliária', 'Escola', 'Eventos', 'Consultoria', 'Igreja', 'Construção'];
   RAMOS.automacao = RAMOS.sistema;
   var EXEMPLOS = {
     automacao: ['Quando chegar um pedido, avisar o cliente no WhatsApp e anotar numa planilha', 'Lembrete automático do horário marcado', 'Cobrança e recibo enviados sozinhos'],
@@ -71,7 +73,9 @@
   /* ---------- leitura do formulário ---------- */
   function val(nome) { var el = form.elements[nome]; if (!el) return ''; if (el.length !== undefined && !el.tagName) { var r = $$('[name="' + nome + '"]:checked', form)[0]; return r ? r.value : ''; } return String(el.value || '').trim(); }
   function marcados(nome) { return $$('[name="' + nome + '"]:checked', form).map(function (i) { return i.value; }); }
-  function oque() { return val('oque'); }
+  // escolha(): o que a pessoa tocou; oque(): o comportamento (a "Página do negócio" se comporta como site)
+  function escolha() { return val('oque'); }
+  function oque() { var v = val('oque'); return v === 'pagina' ? 'site' : v; }
   function projeto() { var t = oque(); return t === 'sistema' || t === 'automacao'; }
 
   /* (24/10/2026) a malha de pontos do fundo saiu: fundo sólido, leve no celular */
@@ -223,7 +227,7 @@
   /* ---------- montagem dinâmica dos passos ---------- */
   var sug = $('#ramos'), ramoIn = $('#ramo');
   function desenharRamos() {
-    var lista = RAMOS[oque() || 'site'];
+    var lista = RAMOS[escolha() || 'site'] || RAMOS.site;
     sug.innerHTML = '';
     lista.forEach(function (r) {
       var b = document.createElement('button'); b.type = 'button'; b.innerHTML = svgIc(iconeDe(r)) + '<span></span>'; b.lastChild.textContent = r;
@@ -457,7 +461,7 @@
   function salvar() {
     clearTimeout(agSalvar);
     agSalvar = setTimeout(function () {
-      var r = { v: 3, passo: ordem[atual], oque: oque(), precisa: marcados('precisa'), cpx: marcados('cpx'), sis_quem: val('sis_quem'), sis_env: marcados('sis_env') };
+      var r = { v: 3, passo: ordem[atual], oque: escolha(), precisa: marcados('precisa'), cpx: marcados('cpx'), sis_quem: val('sis_quem'), sis_env: marcados('sis_env') };
       CAMPOS.forEach(function (k) { r[k] = form.elements[k].value; });
       store.set(RASCUNHO, JSON.stringify(r));
     }, 250);
@@ -525,12 +529,12 @@
     else botaoTxt.textContent = OPCIONAIS[p] && !temAlgo(p) ? 'Pular' : 'Continuar';
   }
   // frase do robô com o que a pessoa já respondeu ("Prazer, Barbearia Dois Irmãos!"); textContent, nunca HTML
-  var ROT_CURTO = { site: 'Site com agenda', cardapio: 'Cardápio digital', sistema: 'Sistema sob medida', automacao: 'Automação' };
+  var ROT_CURTO = { site: 'Site com agenda', pagina: 'Página do negócio', cardapio: 'Cardápio digital', sistema: 'Sistema sob medida', automacao: 'Automação' };
   function curto(t, n) { t = String(t || ''); return t.length > n ? t.slice(0, n - 1) + '…' : t; }
   function personalizar(ps) {
     var k = ps.querySelector('[data-kick]'); if (!k) return;
     if (!k.hasAttribute('data-kick-padrao')) k.setAttribute('data-kick-padrao', k.textContent);
-    var mapa = { nome: curto(val('negocio'), 32), ramo: curto(val('ramo'), 28), tipo: ROT_CURTO[oque()] || '' };
+    var mapa = { nome: curto(val('negocio'), 32), ramo: curto(val('ramo'), 28), tipo: ROT_CURTO[escolha()] || '' };
     var modelo = k.getAttribute('data-kick'), falta = false;
     var tx = modelo.replace(/\{(\w+)\}/g, function (m, c) { if (!mapa[c]) falta = true; return mapa[c] || ''; });
     tx = falta ? k.getAttribute('data-kick-padrao') : tx;
@@ -540,7 +544,7 @@
   var eco = $('#eco'), ecoTxt = $('#eco-txt'), ecoDe = -1;
   function respostaDe(p) {
     switch (p) {
-      case 'oque': return ROT_CURTO[oque()] || '';
+      case 'oque': return ROT_CURTO[escolha()] || '';
       case 'negocio': return val('negocio');
       case 'ramo': return val('ramo');
       case 'cidade': return val('cidade');
@@ -791,7 +795,7 @@
   });
 
   /* ---------- revisão ---------- */
-  var ROT_OQUE = { site: 'Site com agenda', cardapio: 'Cardápio digital', sistema: 'Sistema sob medida', automacao: 'Automação' };
+  var ROT_OQUE = { site: 'Site com agenda', pagina: 'Página do negócio', cardapio: 'Cardápio digital', sistema: 'Sistema sob medida', automacao: 'Automação' };
   function resumoPrecisa() {
     var t = oque();
     if (t === 'cardapio') return marcados('cpx').map(function (k) { return CARDAPIO[k][1]; }).join(', ');
@@ -800,7 +804,7 @@
   }
   function montarRevisao() {
     var linhas = [
-      ['O que', ROT_OQUE[oque()] || '', 'oque'],
+      ['O que', ROT_OQUE[escolha()] || '', 'oque'],
       ['Negócio', [val('negocio'), val('ramo')].filter(Boolean).join(' · '), 'negocio'],
       ['Cidade', val('cidade'), 'cidade'],
       [oque() === 'sistema' ? 'O sistema' : oque() === 'automacao' ? 'A automação' : 'Precisa', resumoPrecisa(), 'precisa'],
@@ -897,7 +901,10 @@
     var t = oque();
     if (projeto()) return ['sistema']; // a API tem lista fechada: 'sistema' abre a sala do projeto (vale para automação também)
     if (t === 'cardapio') { var s = []; marcados('cpx').forEach(function (k) { var v = CARDAPIO[k][0]; if (v && s.indexOf(v) < 0) s.push(v); }); return s; }
-    return marcados('precisa').map(String).slice(0, 6);
+    var ps = marcados('precisa').map(String);
+    // "Site com agenda" pede a agenda (a nuvem só guarda Landing/Cardápio; é o 'agendar' que leva ao Site com agenda no app)
+    if (escolha() === 'site' && ps.indexOf('agendar') < 0) ps.unshift('agendar');
+    return ps.slice(0, 6);
   }
   var mt = $('#montando'), mtLista = $$('#mt-lista li'), mtRobo = $('.mt-tel .robo');
   function montando() {
