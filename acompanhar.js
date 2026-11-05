@@ -44,8 +44,8 @@
     encerrado = true; clearTimeout(proxima); proxima = null;
     $('tudo').hidden = true; $('sem-pedido').hidden = false;
     $('sem-pedido-t').textContent = ja ? 'Este pedido foi encerrado' : 'Não achei o seu pedido';
-    $('sem-pedido-s').textContent = ja ? 'Ele não recebe mais mensagens nem aprovações. Se ainda quiser o seu site, faça um pedido novo: leva um minuto e a prévia é grátis.' : 'Abra pelo link que você recebeu (ele é só seu) ou peça uma prévia nova.';
-    $('sem-pedido-b').textContent = ja ? 'Fazer um novo pedido' : 'Pedir minha prévia grátis';
+    $('sem-pedido-s').textContent = ja ? 'Ele não recebe mais mensagens nem aprovações. Se ainda quiser o seu site, faça um pedido novo: leva um minuto e ver a prévia não custa nada.' : 'Abra pelo link que você recebeu (ele é só seu) ou peça uma prévia nova.';
+    $('sem-pedido-b').textContent = ja ? 'Fazer um novo pedido' : 'Pedir minha prévia sem custo';
     try { $('texto').disabled = true; $('envio').querySelector('button[type=submit]').disabled = true; } catch (_) {}
   }
   function carregar() {
@@ -72,12 +72,12 @@
     $('giro').hidden = !fazendo;
     $('status-t').textContent = window.CGAndamento ? window.CGAndamento.limpo(r, an) : (r.situacaoTexto || 'Pedido recebido');
     $('status-s').textContent = i.publicado ? 'Seu site está no ar. Para mudar alguma coisa, use "Pedir uma mudança" logo abaixo.'
-      : i.restanteLiberado ? 'Seu site final está pronto! Veja na prévia. Assim que o restante cair, ele vai ao ar de vez.'
-      : i.sinalRecebido ? 'Sinal pago. Seu site final está em produção. Mande na conversa a logo ou o que faltar.'
-      : i.pixLiberado ? (temLinkMP(i) ? 'O link de pagamento (Pix ou cartão) está logo abaixo. Assim que o sinal for aprovado, começamos o site final.' : 'Os dados do Pix estão logo abaixo. Assim que o sinal cair, começamos o site final.')
+      : i.restanteLiberado ? 'Seu site está pronto! Veja na prévia. Assim que o restante cair, ele vai ao ar.'
+      : i.sinalRecebido ? 'Pagamento confirmado. Estamos colocando o seu site no ar.'
+      : i.pixLiberado ? (temLinkMP(i) ? 'O link de pagamento (Pix ou cartão) está logo abaixo. Assim que o pagamento for aprovado, o seu site vai ao ar.' : 'Os dados do Pix estão logo abaixo. Assim que o pagamento for aprovado, o seu site vai ao ar.')
       : an.naFila ? 'Seu pedido está na fila de produção da nossa equipe. Enquanto isso, pode tirar dúvidas na conversa.'
       : an.emProd && i.versao ? 'Nossa equipe está aplicando os seus ajustes. A nova versão aparece aqui na prévia.'
-      : i.versao ? (i.rodadasRestantes > 0 ? 'Gostou? Aprove. Quer mudar? Ajuste com o dedo ou peça na conversa.' : 'Ajustes da prévia usados: o que faltar entra no site final, depois do sinal.')
+      : i.versao ? (i.rodadasRestantes > 0 ? 'Gostou? Aprove. Quer mudar? Ajuste com o dedo ou peça na conversa.' : 'Ajustes da prévia usados: o que faltar a gente ajusta depois, na sala do site.')
       : 'Nossa equipe está montando a sua prévia. Pode tirar dúvidas na conversa.';
     // prévia
     if (r.previaUrl && r.previaUrl !== previaAtual) {
@@ -86,7 +86,7 @@
       f.hidden = false; $('previa-vazia').hidden = true; $('previa-acoes').hidden = false; $('abrir').href = r.previaUrl;
       edCarregado = '';
     }
-    // prévia fica no ar 24 h (sem sinal); vencida, um toque republica a MESMA prévia por mais 24 h (guardada por até 30 dias)
+    // prévia fica no ar 24 h (sem pagamento); vencida, um toque republica a MESMA prévia por mais 24 h (guardada por até 30 dias)
     var exp = !!(i.previaExpirada && !i.publicado);
     $('previa-expirou').hidden = !exp;
     if (exp) { $('previa').hidden = true; $('previa-acoes').hidden = true; $('previa-vazia').hidden = true; previaAtual = ''; }
@@ -95,7 +95,7 @@
     var editavel = !!(i.editavel && r.previaUrl);
     $('aba-editor').hidden = !editavel; $('ir-editar').hidden = !editavel;
     if (!editavel && !$('painel-editor').hidden) { $('painel-editor').hidden = true; if (!ehLargo()) abrirAba('previa'); }
-    $('rodadas').textContent = i.rodadasTotal ? 'Rodada de ajuste ' + Math.min(i.rodadasTotal, (i.rodadasTotal - i.rodadasRestantes) + 1) + ' de ' + i.rodadasTotal + ' na prévia. Depois do sinal, o site final recebe o resto.' : '';
+    $('rodadas').textContent = i.rodadasTotal ? 'Rodada de ajuste ' + Math.min(i.rodadasTotal, (i.rodadasTotal - i.rodadasRestantes) + 1) + ' de ' + i.rodadasTotal + ' na prévia. O que faltar a gente ajusta depois, na sala do site.' : '';
     // compra sempre à vista
     var cta = $('cta');
     var prep = aprovacaoPendente();
@@ -104,17 +104,17 @@
     $('aprovar').disabled = !i.podeAprovar;
     // valor EXATO que vai ser cobrado ao aprovar (vem do app, o mesmo do Pix; nunca a conta da tabela aqui no navegador)
     var sp = Number(i.sinalPrevisto) || 0;
-    $('cta-s').textContent = i.rodadasRestantes === 0 ? 'Ajustes da prévia usados. Aprove e o resto entra no site final, depois do sinal' + (sp ? ' de ' + brl2(sp) : '') + '.' : sp ? 'Ao aprovar, você paga só o sinal: ' + brl2(sp) + '. O resto, na entrega.' : 'Você só paga o sinal de 50% depois de aprovar. O resto, na entrega.';
+    $('cta-s').textContent = i.rodadasRestantes === 0 ? 'Ajustes da prévia usados. Aprove' + (sp ? ' (' + brl2(sp) + ', de uma vez)' : '') + ' e o que faltar a gente ajusta depois, na sala do site.' : sp ? 'Ao aprovar, o valor é ' + brl2(sp) + ', de uma vez.' : 'Você só paga depois de aprovar, de uma vez: Pix ou até 12x no cartão (com os juros do Mercado Pago).';
     // pacotes (valores vêm da tabela da ClickGo, mandados pelo app)
     desenharPacotes();
-    // SINAL PAGO (dono 24/10/2026): a página muda de fase. Status da produção, prazo e o restante na entrega; nada de
-    // escolher pacote, aprovar ou pagar o sinal de novo
+    // PAGO (dono 24/10/2026; pagamento inteiro desde 05/11/2026): a página muda de fase enquanto o site vai ao ar; nada de
+    // escolher pacote, aprovar ou pagar de novo (restante só em pedido antigo)
     var posSinal = !!(i.sinalRecebido && !i.restanteLiberado && !i.publicado && !i.cancelado && !proj && r.situacao !== 'desistencia');
     $('fase-sinal').hidden = !posSinal;
     if (posSinal) {
       cta.hidden = true; $('pacotes').hidden = true; $('resumo-pac').hidden = true; $('pix').hidden = true;
       var rp = Number(i.restantePrevisto) || 0;
-      $('fase-resta-l').hidden = !rp; $('fase-resta').textContent = rp ? brl2(rp) + ', só na entrega' : '';
+      $('fase-resta-l').hidden = !rp; $('fase-resta').textContent = rp ? brl2(rp) + ', antes de o site ir ao ar' : '';
     }
     // pedido substituído por um novo deste aparelho
     if (i.cancelado || r.situacao === 'cancelado') {
@@ -162,7 +162,7 @@
     for (var j = ms.length - 1; j >= 0; j--) if (ms[j].de === 'cliente' && ms[j].tipo === 'aprovar') return Date.parse(ms[j].em) || 1;
     return 0;
   }
-  // aviso no topo quando há pagamento em aberto (sinal ou restante): quem veio pelo e-mail de lembrete cai direto nele
+  // aviso no topo quando há pagamento em aberto (pagamento ou restante antigo): quem veio pelo e-mail de lembrete cai direto nele
   function desenharAvisoPag() {
     var i = estado.info || {}, rest = !!(i.restanteLiberado && !i.publicado), sin = !!(i.pixLiberado && !i.sinalRecebido && !i.publicado && !i.cancelado);
     $('aviso-pag').hidden = !(rest || sin);
@@ -170,7 +170,7 @@
     $('seta-previa').hidden = !(rest && estado.previaUrl && !i.previaExpirada);
     if (!(rest || sin)) return;
     var v = rest ? Number(i.restante) || 0 : Number(i.sinal) || 0;
-    $('aviso-pag-t').textContent = rest ? 'Seu site está pronto! Falta só o restante' + (v ? ' (' + brl2(v) + ')' : '') + ' para ir ao ar.' : 'Prévia aprovada! Falta só o sinal' + (v ? ' (' + brl2(v) + ')' : '') + ' para começar o site final.';
+    $('aviso-pag-t').textContent = rest ? 'Seu site está pronto! Falta só o restante' + (v ? ' (' + brl2(v) + ')' : '') + ' para ir ao ar.' : 'Prévia aprovada! Falta só o pagamento' + (v ? ' (' + brl2(v) + ')' : '') + ' para o site ir ao ar.';
     $('aviso-pag-s').textContent = i.precisaContato ? 'Toque para informar o e-mail e gerar o Pix.' : temPix(i) ? 'Toque para ver o QR Code do Pix (qualquer banco).' : temLinkMP(i) ? 'Toque para pagar (Pix ou cartão, até 12x).' : 'Toque para ver o Pix' + (i.querCartao ? '. O link do cartão chega na conversa.' : ' ou pedir o cartão parcelado.');
   }
   $('seta-previa').onclick = function () { if (!ehLargo()) abrirAba('previa'); $('painel-previa').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); };
@@ -210,11 +210,11 @@
     $('pix-preparando').hidden = mostra || !prep;
     if (prep && !mostra) { var demora = Date.now() - prep > 60000; $('pix-prep-t').textContent = demora ? 'Aprovação recebida!' : 'Aprovado! Preparando o seu pagamento…'; $('pix-prep-s').textContent = demora ? 'Estamos confirmando a sua aprovação. Os dados do pagamento aparecem aqui (e na conversa) assim que saírem.' : 'Leva só alguns segundos. Os dados do pagamento aparecem aqui mesmo.'; }
     $('pix-pronto').hidden = !mostra;
-    if (prep && !mostra) { $('giro').hidden = true; $('status-t').textContent = 'Prévia aprovada!'; $('status-s').textContent = 'Obrigado! O pagamento do sinal aparece logo abaixo.'; }
+    if (prep && !mostra) { $('giro').hidden = true; $('status-t').textContent = 'Prévia aprovada!'; $('status-s').textContent = 'Obrigado! O pagamento aparece logo abaixo.'; }
     if (!mostra) return;
     var upg = ext && i.extraTipo === 'upgrade'; // diferença da implantação na troca de plano (cg-sala-planos.js)
-    $('pix-titulo').textContent = upg ? 'Pague a diferença e suba para o ' + (i.extraNome || 'plano novo') : ext ? 'Pague o seu extra: ' + (i.extraNome || 'extra') : rest ? 'Pague o restante e coloque o seu site no ar' : 'Pague o sinal e garanta o seu site';
-    $('pix-rotulo').textContent = upg ? 'Diferença da implantação (uma vez)' : ext ? 'Extra (pagamento único)' : rest ? 'Restante (50%)' : 'Sinal (50%)';
+    $('pix-titulo').textContent = upg ? 'Pague a diferença e suba para o ' + (i.extraNome || 'plano novo') : ext ? 'Pague o seu extra: ' + (i.extraNome || 'extra') : rest ? 'Pague o restante e coloque o seu site no ar' : 'Pague e coloque o seu site no ar';
+    $('pix-rotulo').textContent = upg ? 'Diferença da implantação (uma vez)' : ext ? 'Extra (pagamento único)' : rest ? 'Restante' : 'Pagamento';
     $('pix-garante-sinal').hidden = rest || ext; $('pix-garante-restante').hidden = !rest;
     // 1º o e-mail (obrigatório: recibo e link da página); depois o Pix na página (QR + copia e cola); o cartão do MP fica
     // como opção secundária. Sem Pix (Mercado Pago desligado ou fora): o link do MP ou a chave Pix, como antes.
@@ -340,7 +340,7 @@
       else {
         b.className = 'cg-btn ' + (p.recomendado ? 'cg-btn-prim' : 'cg-btn-linha'); b.textContent = 'Escolher este'; b.disabled = trava;
         b.onclick = function () {
-          var aviso = !i.versao ? 'A prévia já sai nesse nível.' : i.rodadasRestantes > 0 ? 'A prévia é refeita nesse nível (usa 1 das ' + i.rodadasTotal + ' rodadas de ajuste).' : 'As rodadas de ajuste acabaram: a prévia fica como está e o site final sai nesse nível.';
+          var aviso = !i.versao ? 'A prévia já sai nesse nível.' : i.rodadasRestantes > 0 ? 'A prévia é refeita nesse nível (usa 1 das ' + i.rodadasTotal + ' rodadas de ajuste).' : 'As rodadas de ajuste acabaram: a prévia fica como está e o site sai nesse nível.';
           if (!confirm('Trocar para o pacote ' + p.pacote + '? ' + aviso + ' Você só paga depois de aprovar.')) return;
           b.disabled = true; b.textContent = 'Trocando…';
           mandar('', { tipo: 'pacote', pacote: p.pacote }).then(function () { toast('Pedido de troca enviado! A resposta chega na conversa.'); }).catch(function () { b.disabled = false; b.textContent = 'Escolher este'; });
@@ -348,7 +348,7 @@
       }
       box.appendChild(c);
     });
-    $('pacotes-nota').textContent = trava ? 'A prévia já foi aprovada: para trocar de pacote, fale na conversa.' : 'Pagamento: 50% depois de aprovar a prévia, 50% na entrega. Mensalidade sem fidelidade.';
+    $('pacotes-nota').textContent = trava ? 'A prévia já foi aprovada: para trocar de pacote, fale na conversa.' : 'Pagamento: de uma vez, depois de aprovar a prévia (Pix ou até 12x no cartão, com os juros do Mercado Pago). Mensalidade sem fidelidade.';
     // no celular, já mostra o recomendado/escolhido
     if (!rolouPacote) { rolouPacote = true; var alvo = box.querySelector('.cg-pac.esc') || box.querySelector('.cg-pac.rec'); if (alvo && box.scrollWidth > box.clientWidth) box.scrollLeft = alvo.offsetLeft - box.offsetLeft - 16; }
   }
@@ -396,7 +396,7 @@
     // pergunta da equipe esperando resposta: as respostas rápidas tomam o lugar das sugestões
     var pp = window.CGAndamento && window.CGAndamento.pendente(estado);
     if (pp && pp.opcoes.length) { pp.opcoes.forEach(function (t) { var b = document.createElement('button'); b.type = 'button'; b.className = 'cg-op-perg perg'; b.textContent = t; b.onclick = function () { window.CGAndamento.responder(t, estado); }; s.appendChild(b); }); return; }
-    var lista = i.publicado ? ['Quero mudar uma coisa no site'] : (i.sinalRecebido && !i.restanteLiberado) ? ['Mandar logo', 'Quando fica pronto?', 'Quero mudar algo'] : i.restanteLiberado ? ['Já paguei o restante', temLinkMP(i) ? 'Como faço para pagar?' : 'Aceita cartão?'] : i.pixLiberado ? ['Já paguei o sinal', temLinkMP(i) ? 'Como faço para pagar?' : 'Qual é a chave Pix?'] : i.versao ? ['Quanto fica?', 'Como funciona o pagamento?', 'Quanto tempo para ficar no ar?'] : ['Quanto custa um site?', 'Em quanto tempo fica pronto?'];
+    var lista = i.publicado ? ['Quero mudar uma coisa no site'] : (i.sinalRecebido && !i.restanteLiberado) ? ['Mandar logo', 'Quando fica pronto?', 'Quero mudar algo'] : i.restanteLiberado ? ['Já paguei o restante', temLinkMP(i) ? 'Como faço para pagar?' : 'Aceita cartão?'] : i.pixLiberado ? ['Já paguei',temLinkMP(i) ? 'Como faço para pagar?' : 'Qual é a chave Pix?'] : i.versao ? ['Quanto fica?', 'Como funciona o pagamento?', 'Quanto tempo para ficar no ar?'] : ['Quanto custa um site?', 'Em quanto tempo fica pronto?'];
     lista.forEach(function (t) { var b = document.createElement('button'); b.type = 'button'; b.textContent = t; b.onclick = function () { if (t === 'Mandar logo') { abrirConversa(); $('anexo-input').click(); return; } if (i.publicado && $('sala-texto') && !$('sala-mudar').hidden && !$('sala').hidden) { $('sala-mudar').scrollIntoView({ behavior: 'smooth' }); $('sala-texto').focus(); } else mandar(t); }; s.appendChild(b); });
   }
 
@@ -432,7 +432,7 @@
     });
   });
   $('aprovar').onclick = function () {
-    if (!confirm('Aprovar a prévia? Em seguida mandamos aqui o pagamento do sinal (50%). O restante só na entrega do site.')) return;
+    if (!confirm('Aprovar a prévia? Em seguida mandamos aqui o pagamento. Assim que ele for aprovado, o site vai ao ar.')) return;
     $('aprovar').disabled = true;
     aprovadoAqui = Date.now(); if (estado) desenhar();
     $('pix').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -621,7 +621,7 @@
   $('salvar').onclick = function () {
     if (!ed.doc || !ed.mudou.length) return;
     var i = (estado && estado.info) || {};
-    if (i.rodadasRestantes === 0) { toast('As rodadas de ajuste da prévia acabaram. Aprove e o resto entra no site final.'); return; }
+    if (i.rodadasRestantes === 0) { toast('As rodadas de ajuste da prévia acabaram. Aprove e o que faltar a gente ajusta depois, na sala do site.'); return; }
     if (ed.doc.activeElement && ed.doc.activeElement.blur) ed.doc.activeElement.blur();
     var clone = ed.doc.documentElement.cloneNode(true);
     var fotos = [];
