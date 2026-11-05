@@ -2,7 +2,7 @@
    1) "Guarde este link" forte (link real, Copiar, favoritos, clickgo.dev.br/entrar);
    2) tela de mudança com 3 botões (fotos / texto ou preço / item), até 6 fotos, tipo "mudanca" + acao;
    3) VITRINE de extras com o site no ar (CGVitrine; "Quero" -> descreve -> tipo "extra"; o pagamento aparece no quadro do Pix);
-   4) ANTES do Pix: extras opcionais em caixinhas, inclusive SEO, logo animado e premium (tipo "extras"; o total cobrado e o sinal vêm do app).
+   4) ANTES do Pix: extras opcionais em caixinhas, inclusive SEO, logo animado e premium (tipo "extras"; o total cobrado vem do app, no campo sinalPrevisto, que desde 05/11/2026 é o valor inteiro).
    Preço SEMPRE do catálogo que o app mandou (r.sala.vitrine / r.extras.catalogo); nada de número escrito aqui.
    acompanhar.js chama window.CGSalaExtras.desenhar(estado, { mandar, toast, copiar }) a cada atualização. Sem script inline. */
 (function () {
@@ -190,8 +190,8 @@
 
   /* ---------- 4) antes do Pix: extras NA COMPRA, em caixinhas (dono 02/11/2026) ---------- */
   // Todo o catálogo à venda (inclusive SEO mensal, logo animado e site premium), cada um com a sua demo. Marcar/desmarcar manda
-  // a lista inteira de ids (tipo "extras"); a nuvem confere os ids e o app recalcula valor e sinal no SERVIDOR. O total daqui é
-  // só a conta para mostrar (preços do catálogo que o app mandou); o que vale é o "sinal ao aprovar" que volta do app.
+  // a lista inteira de ids (tipo "extras"); a nuvem confere os ids e o app recalcula o valor no SERVIDOR. O total daqui é
+  // só a conta para mostrar (preços do catálogo que o app mandou); o que vale é o "a pagar ao aprovar" que volta do app.
   var preTimer = null, preIds = null;
   function somaPre(cat, ids, mensal) {
     return Math.round(cat.reduce(function (t, c) { return t + (ids.indexOf(c.id) >= 0 && (mensal ? c.unidade === 'mes' : true) ? Number(c.valor) || 0 : 0); }, 0) * 100) / 100;
@@ -206,8 +206,8 @@
     linha(ids.length ? 'Extras marcados (' + ids.length + ')' : 'Extras marcados', ids.length ? '+ ' + brl(ext) : brl(0));
     if (pac && base) linha('Total previsto', brl(base + ext), 'cge-pt-forte');
     if (mes > 0 || (pac && Number(pac.mensalidade) > 0)) linha('Por mês, depois que o site for ao ar', brl((pac ? Number(pac.mensalidade) || 0 : 0) + mes) + (mes > 0 ? ' (com o SEO)' : ''));
-    if (i.sinalPrevisto) linha('Sinal ao aprovar (50%)', brl(i.sinalPrevisto), 'cge-pt-sinal');
-    box.appendChild(el('p', 'cge-pt-nota', mes > 0 ? 'O 1º mês do SEO já entra no total; depois ele soma na mensalidade.' : 'Metade agora, metade na entrega.'));
+    if (i.sinalPrevisto) linha('A pagar ao aprovar', brl(i.sinalPrevisto), 'cge-pt-sinal');
+    box.appendChild(el('p', 'cge-pt-nota', mes > 0 ? 'O 1º mês do SEO já entra no total; depois ele soma na mensalidade.' : 'De uma vez, ao aprovar: Pix ou até 12x no cartão (com os juros do Mercado Pago).'));
   }
   function extrasAntes(r) {
     var x = r.extras || {}, i = r.info || {};
@@ -235,7 +235,7 @@
         clearTimeout(preTimer);
         preTimer = setTimeout(function () {
           var lista = preIds;
-          api.mandar('', { tipo: 'extras', extras: lista }).then(function () { api.toast(lista.length ? 'Extras anotados! O sinal atualiza aqui em instantes.' : 'Extras retirados.'); })
+          api.mandar('', { tipo: 'extras', extras: lista }).then(function () { api.toast(lista.length ? 'Extras anotados! O valor atualiza aqui em instantes.' : 'Extras retirados.'); })
             .catch(function () {}).finally(function () { preIds = null; });
         }, 700);
       } });

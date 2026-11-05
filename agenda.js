@@ -1,6 +1,6 @@
 /* ClickGo: AGENDA PRÓPRIA da sala do projeto (21/10/2026), sem Google API e sem OAuth.
    info.agenda (lista branca da nuvem) = { dur, manha:[ini,fim], tarde:[ini,fim], dias:[{ d:'AAAA-MM-DD', r:'qua 22/10', l:['14:00',...] }],
-   marcado: { inicio:'AAAA-MM-DDTHH:MM', rotulo, sala } | null }. Só chega depois do sinal (ou com a agenda liberada pelo dono).
+   marcado: { inicio:'AAAA-MM-DDTHH:MM', rotulo, sala } | null }. Só chega depois do pagamento (ou com a agenda liberada pelo dono).
    Grade dos próximos dias úteis: manhã sempre "Ocupado" (cinza), tarde em blocos (livre = botão; tomado/bloqueado = "Ocupado").
    Escolher -> confirmar -> mandar('', { tipo:'agenda', horario }); cancelar -> { tipo:'agenda', cancelar:true }. Horário de Brasília em
    texto (nunca convertido pelo fuso do aparelho). andamento.js chama CGAgenda.desenhar(r, api) a cada atualização. */

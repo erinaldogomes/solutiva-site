@@ -10,7 +10,7 @@
    ===================================================================== */
 const CONTATO = {
   principal: 'https://ig.me/m/clickgo.dev',
-  esboco: '/esboco/',   // pedir esboço grátis: formulário (resposta na página de acompanhamento)
+  esboco: '/esboco/',   // pedir a prévia sem custo: formulário (resposta na página de acompanhamento)
   secundario: 'https://www.youtube.com/@clickgodev',
   whatsapp: '',
   mensagemWhatsapp: 'Olá! Vi o site da ClickGo e quero um orçamento.'

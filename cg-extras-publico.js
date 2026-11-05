@@ -82,7 +82,7 @@
       marcados = marcados.filter(function (id) { return cat.some(function (x) { return x.id === id; }); });
       caixa.textContent = '';
       caixa.appendChild(el('p', 'cfe-t', 'Deixe ainda mais especial (opcional)'));
-      caixa.appendChild(el('p', 'cfe-sub', 'Soma no total e metade vai no sinal. Dá para tirar depois, antes de aprovar a prévia.'));
+      caixa.appendChild(el('p', 'cfe-sub', 'Soma no total. Dá para tirar depois, antes de aprovar a prévia.'));
       var total = el('p', 'cfe-total');
       var conta = function () {
         var t = cat.filter(function (x) { return marcados.indexOf(x.id) >= 0; }).reduce(function (a, x) { return a + Number(x.valor); }, 0);
