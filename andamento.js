@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var SITE = [['pedido', 'Pedido'], ['esboco', 'Prévia'], ['sinal', 'Sinal'], ['montando', 'Montando seu site'], ['previa_final', 'Prévia final'], ['no_ar', 'No ar']];
+  var SITE = [['pedido', 'Pedido'], ['esboco', 'Prévia'], ['sinal', 'Pagamento'], ['montando', 'Colocando no ar'], ['previa_final', 'Prévia final'], ['no_ar', 'No ar']];
   var SIS = [['briefing', 'Briefing'], ['prototipo', 'Protótipo'], ['orcamento', 'Orçamento'], ['sinal', 'Sinal'], ['construcao', 'Em construção'], ['entrega', 'Entrega'], ['no_ar', 'No ar']];
   // texto que não pode aparecer para o cliente (fila numerada, minutos, máquina, "assim que possível", bastidores)
   var PROIBIDO = /posi[cç][aã]o|\d+\s*min\b|minuto|\bPC\b|computador|desligad|assim que poss|claude|\brob[oô]\b|\bIA\b/i;
@@ -39,9 +39,9 @@
     } : {
       pedido: naFila ? 'Na fila de produção' : 'Estamos fazendo o briefing do seu negócio',
       esboco: emProd ? (i.versao ? 'Nossa equipe está ajustando a sua prévia' : 'Nossa equipe está montando a sua prévia') : naFila ? 'Na fila de produção' : 'Sua prévia está pronta',
-      sinal: 'Prévia aprovada: falta só o sinal',
-      montando: naFila ? 'Na fila de produção' : 'Nossa equipe está montando seu site',
-      previa_final: 'Seu site final está pronto para você conferir',
+      sinal: 'Prévia aprovada: falta só o pagamento',
+      montando: naFila ? 'Na fila de produção' : 'Colocando o seu site no ar',
+      previa_final: 'Seu site está pronto para você conferir',
       no_ar: emProd ? 'Em produção: aplicando a sua mudança' : naFila ? 'Seu pedido de mudança está na fila de produção' : 'Seu site está no ar'
     };
     return { etapa: etapa, lista: lista, proj: proj, emProd: emProd, naFila: naFila, N: N, M: M, frase: F[etapa] || '' };
